@@ -5,3 +5,5 @@ gem "rake",      "~> 10"
 gem "minitest",  "~> 5"
 gem "simplecov", require: false
 gem "coveralls", require: false
+
+gem "lotusrb",   github: "lotus/lotus"
