@@ -1,6 +1,7 @@
 require "octodmin"
 require "lotus"
 require "json"
+require_relative "./config/sprockets"
 
 module Octodmin
   class App < Lotus::Application
@@ -10,15 +11,10 @@ module Octodmin
       routes "config/routes"
       load_paths << [
         "controllers",
-        "presenters",
         "views",
       ]
 
       layout :application
-      serve_assets true
-      assets << [
-        "public"
-      ]
     end
   end
 end

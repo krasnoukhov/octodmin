@@ -1,0 +1,16 @@
+@charset "utf-8";
+
+@import
+  "vendor/bootstrap",
+  "vendor/bootswatch",
+  "vendor/fontawesome/font-awesome"
+;
+
+body {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.navbar {
+  margin-bottom: 20px;
+}

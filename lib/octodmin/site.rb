@@ -9,6 +9,10 @@ module Octodmin
       @site.read
     end
 
+    def serializable_hash
+      @site.config
+    end
+
     def posts
       @site.posts.map { |post| Post.new(post) }
     end

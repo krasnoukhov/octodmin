@@ -1,12 +1,12 @@
-module Octodmin::Controllers::Version
+module Octodmin::Controllers::Site
   class Show
     include Octodmin::Action
-    expose :version
+    expose :site
 
     def call(params)
       self.format = :json
 
-      @version = Octodmin::VERSION
+      @site = Octodmin::Site.new
     end
   end
 end
