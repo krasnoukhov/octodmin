@@ -1,5 +1,10 @@
+ENV["RACK_ENV"] = "test"
+
 require "rubygems"
 require "bundler/setup"
+
+Bundler.require(:test)
+require "rack/test"
 
 if ENV["COVERAGE"] == "true"
   require "simplecov"
@@ -11,11 +16,16 @@ if ENV["COVERAGE"] == "true"
   ]
 
   SimpleCov.start do
-    command_name "test"
-    add_filter   "test"
+    command_name "spec"
+    add_filter   "spec"
   end
 end
 
-require "minitest/autorun"
 $:.unshift "lib"
 require "octodmin"
+require "octodmin/app"
+
+RSpec.configure do |config|
+  config.include Rack::Test::Methods
+  config.include JsonSpec::Helpers
+end
