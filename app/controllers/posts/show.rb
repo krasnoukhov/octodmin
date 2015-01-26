@@ -1,13 +1,13 @@
 module Octodmin::Controllers::Posts
-  class Index
+  class Show
     include Octodmin::Action
-    expose :posts
+    expose :post
 
     def call(params)
       self.format = :json
 
       site = Octodmin::Site.new
-      @posts = site.posts
+      @post = site.posts.find { |post| post.identifier == params[:id] }
     end
   end
 end

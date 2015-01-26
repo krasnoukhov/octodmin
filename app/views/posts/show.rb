@@ -1,10 +1,10 @@
 module Octodmin::Views::Posts
-  class Index
+  class Show
     include Octodmin::View
     format :json
 
     def render
-      JSON.dump(posts: posts.map(&:serializable_hash))
+      JSON.dump(posts: post.serializable_hash)
     end
   end
 end

@@ -1,6 +1,5 @@
 module Octodmin
   class Site
-    extend Forwardable
     attr_accessor :site
 
     def initialize
