@@ -7,12 +7,24 @@ module Octodmin
       next
     ]
 
+    def self.create(options = {})
+      post = Octopress::Post.new(
+        Octopress.site,
+        options.map { |k, v| [k.to_s, v] }.to_h,
+      )
+      post.write
+
+      site = Octodmin::Site.new
+      site.posts.last
+    rescue RuntimeError
+    end
+
     def initialize(post)
       @post = post
     end
 
     def identifier
-      @post.id.gsub("/", "_")
+      @post.id.gsub("/", "-").sub("-", "")
     end
 
     def serializable_hash

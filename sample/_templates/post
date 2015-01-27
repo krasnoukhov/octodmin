@@ -3,3 +3,5 @@ layout: {{ layout }}
 title: {{ title }}
 date: {{ date }}
 ---
+
+New post from **template**
