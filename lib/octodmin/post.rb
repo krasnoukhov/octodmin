@@ -24,7 +24,7 @@ module Octodmin
     end
 
     def identifier
-      @post.id.gsub("/", "-").sub("-", "")
+      @post.path.split("/").last.split(".").first
     end
 
     def serializable_hash

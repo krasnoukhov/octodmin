@@ -12,6 +12,9 @@ describe "posts" do
       expect(subject.first["identifier"]).to eql("2015-01-30-test")
       expect(subject.first["title"]).to eql("Test")
       expect(subject.first["excerpt"]).to eql("# OMG\n\n")
+
+      expect(subject.last["identifier"]).to eql("2015-01-30-welcome-to-jekyll")
+      expect(subject.last["title"]).to eql("Welcome to Jekyll!")
     end
   end
 
