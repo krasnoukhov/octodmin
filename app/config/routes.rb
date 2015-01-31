@@ -7,6 +7,7 @@ end
 sprockets = Sprockets::Environment.new
 sprockets.append_path "app/assets/stylesheets"
 sprockets.append_path "app/assets/javascripts"
+sprockets.append_path "app/assets/fonts"
 sprockets.register_engine ".cjsx", CjsxProcessor
 mount sprockets, at: "/assets"
 
