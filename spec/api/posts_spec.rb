@@ -12,6 +12,7 @@ describe "posts" do
       expect(subject.first["identifier"]).to eql("2015-01-30-test")
       expect(subject.first["title"]).to eql("Test")
       expect(subject.first["excerpt"]).to eql("# OMG\n\n")
+      expect(subject.first["custom"]).to eql("data")
 
       expect(subject.last["identifier"]).to eql("2015-01-30-welcome-to-jekyll")
       expect(subject.last["title"]).to eql("Welcome to Jekyll!")
@@ -28,6 +29,7 @@ describe "posts" do
       expect(subject["path"]).to eql("_posts/2015-01-30-test.markdown")
       expect(subject["date"]).to eql("2015-01-30 18:00:47 +0200")
       expect(subject["content"]).to eql("# OMG\n\nThis is a *post*!\n")
+      expect(subject["custom"]).to eql("data")
     end
   end
 
@@ -69,6 +71,7 @@ describe "posts" do
         expect(subject["path"]).to eql("_posts/#{date}-new-one.markdown")
         expect(subject["date"]).to start_with(date)
         expect(subject["content"]).to eql("New post from **template**\n")
+        expect(subject["custom"]).to eql("default")
       end
     end
   end

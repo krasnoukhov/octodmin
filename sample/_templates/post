@@ -2,6 +2,7 @@
 layout: {{ layout }}
 title: {{ title }}
 date: {{ date }}
+custom: default
 ---
 
 New post from **template**

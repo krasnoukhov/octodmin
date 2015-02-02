@@ -13,3 +13,15 @@ github_username:  jekyll
 
 # Build settings
 markdown: kramdown
+
+# Octodmin settings
+octodmin:
+  front_matter:
+    layout:
+      type: "string"
+    title:
+      type: "string"
+    date:
+      type: "date"
+    custom:
+      type: "string"

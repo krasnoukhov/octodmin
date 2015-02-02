@@ -2,6 +2,7 @@
 layout: post
 title: "Test"
 date: 2015-01-30T18:00:47+02:00
+custom: data
 ---
 
 # OMG
