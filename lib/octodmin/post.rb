@@ -8,10 +8,7 @@ module Octodmin
     ]
 
     def self.create(options = {})
-      post = Octopress::Post.new(
-        Octopress.site,
-        options.map { |k, v| [k.to_s, v] }.to_h,
-      )
+      post = Octopress::Post.new(Octopress.site, Jekyll::Utils.stringify_hash_keys(options))
       post.write
 
       site = Octodmin::Site.new
