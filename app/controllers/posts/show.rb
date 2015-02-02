@@ -6,8 +6,7 @@ module Octodmin::Controllers::Posts
     def call(params)
       self.format = :json
 
-      site = Octodmin::Site.new
-      @post = site.posts.find { |post| post.identifier == params[:id] }
+      @post = Octodmin::Post.find(params[:id])
     end
   end
 end

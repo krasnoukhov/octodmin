@@ -16,5 +16,15 @@ module Octodmin
 
       layout :application
     end
+
+    # :nocov:
+    configure :development do
+      handle_exceptions false
+    end
+    # :nocov:
+
+    configure :test do
+      handle_exceptions false
+    end
   end
 end

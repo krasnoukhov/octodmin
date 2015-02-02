@@ -23,6 +23,19 @@ shared_examples_for "new post" do
   end
 end
 
+shared_examples_for "updated post" do
+  it "has post" do
+    expect(File.exists?("sample/_posts/#{date}-new-one.markdown")).to be_falsy
+    expect(File.exists?("sample/_posts/#{date}-updated-one.markdown")).to be_truthy
+    expect(subject["identifier"]).to eql("#{date}-updated-one")
+    expect(subject["title"]).to eql("Updated One")
+    expect(subject["path"]).to eql("_posts/#{date}-updated-one.markdown")
+    expect(subject["date"]).to start_with(date)
+    expect(subject["content"]).to eql("### WOW\n")
+    expect(subject["custom"]).to eql("updated")
+  end
+end
+
 describe "posts" do
   let(:app) { Octodmin::App.new }
   let(:date) { Date.today.strftime("%Y-%m-%d") }
@@ -89,5 +102,31 @@ describe "posts" do
     before { get "/api/posts/2015-01-30-test" }
     subject { parse_json(last_response.body)["posts"] }
     it_behaves_like "existing post"
+  end
+
+  describe "update" do
+    before do
+      post "/api/posts", title: "New One"
+      patch "/api/posts/#{date}-new-one", {
+        layout: "post",
+        title: "Updated One",
+        date: "now",
+        content: "### WOW",
+        custom: "updated",
+      }
+    end
+    after do
+      File.delete("sample/_posts/#{date}-updated-one.markdown")
+    end
+    subject { parse_json(last_response.body)["posts"] }
+
+    context "response" do
+      it_behaves_like "updated post"
+    end
+
+    context "request" do
+      before { get "/api/posts/#{date}-updated-one" }
+      it_behaves_like "updated post"
+    end
   end
 end
