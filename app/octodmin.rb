@@ -1,7 +1,13 @@
+ENV["RACK_ENV"] = ENV["LOTUS_ENV"] ||= "production"
+
 require "octodmin"
 require "lotus"
 require "json"
-require_relative "./config/sprockets"
+
+begin
+  require_relative "./config/sprockets"
+rescue LoadError
+end
 
 module Octodmin
   class App < Lotus::Application
@@ -18,6 +24,12 @@ module Octodmin
     end
 
     # :nocov:
+    configure :production do
+      assets << ["public"]
+      serve_assets true
+      handle_exceptions false
+    end
+
     configure :development do
       handle_exceptions false
     end

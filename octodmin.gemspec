@@ -12,13 +12,11 @@ Gem::Specification.new do |spec|
   spec.homepage      = "https://github.com/krasnoukhov/octodmin"
   spec.license       = "MIT"
 
-  spec.files         = `git ls-files -z`.split("\x0")
+  spec.files         = (`git ls-files -z`.split("\x0") + `find app`.split("\n")).uniq
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
   spec.add_runtime_dependency "octopress", ">= 3.0.0.rc"
   spec.add_runtime_dependency "lotusrb", ">= 0.2.0"
-  spec.add_runtime_dependency "sprockets", "~> 3.0.0.beta"
-  spec.add_runtime_dependency "coffee-react", "~> 2.1.0"
 end

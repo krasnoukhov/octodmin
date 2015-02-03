@@ -1,3 +1,5 @@
+ENV["RACK_ENV"] = ENV["LOTUS_ENV"] ||= "development"
+
 require "bundler"
 Bundler.require
 

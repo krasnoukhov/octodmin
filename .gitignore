@@ -17,3 +17,4 @@ tmp
 .powrc
 .ruby-gemset
 .ruby-version
+app/public

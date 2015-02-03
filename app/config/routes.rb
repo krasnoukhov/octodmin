@@ -4,6 +4,8 @@ namespace "api" do
   resources :posts, only: [:index, :create, :show, :update]
 end
 
-mount Octodmin.sprockets, at: "/assets"
+if ENV["LOTUS_ENV"] != "production"
+  mount Octodmin.sprockets, at: "/assets"
+end
 
 get "/", to: "frontend#index", as: :home
