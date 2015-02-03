@@ -17,7 +17,7 @@ module Octodmin
       post.write
 
       site = Octodmin::Site.new
-      site.posts.last
+      site.posts.first
     rescue RuntimeError
     end
 

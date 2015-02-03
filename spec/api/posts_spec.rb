@@ -5,7 +5,7 @@ shared_examples_for "existing post" do
     expect(subject["identifier"]).to eql("2015-01-30-test")
     expect(subject["title"]).to eql("Test")
     expect(subject["path"]).to eql("_posts/2015-01-30-test.markdown")
-    expect(subject["date"]).to eql("2015-01-30 18:00:47 +0200")
+    expect(subject["date"]).to eql("2015-01-30 20:10:00 +0200")
     expect(subject["content"]).to eql("# OMG\n\nThis is a *post*!\n")
     expect(subject["custom"]).to eql("data")
   end
@@ -119,7 +119,7 @@ describe "posts" do
       patch "/api/posts/#{date}-new-one", {
         layout: "post",
         title: "Updated One",
-        date: "now",
+        date: "#{date} 00:00:00",
         content: "### WOW",
         custom: "updated",
         junk: "shit",
