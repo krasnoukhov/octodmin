@@ -1,4 +1,4 @@
-ENV["RACK_ENV"] = "test"
+ENV["RACK_ENV"] = ENV["LOTUS_ENV"] = "test"
 
 require "rubygems"
 require "bundler/setup"
