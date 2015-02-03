@@ -33,6 +33,7 @@ shared_examples_for "updated post" do
     expect(subject["date"]).to start_with(date)
     expect(subject["content"]).to eql("### WOW\n")
     expect(subject["custom"]).to eql("updated")
+    expect(subject.has_key?("junk")).to be_falsy
   end
 end
 
@@ -113,6 +114,7 @@ describe "posts" do
         date: "now",
         content: "### WOW",
         custom: "updated",
+        junk: "shit",
       }
     end
     after do

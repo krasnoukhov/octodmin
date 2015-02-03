@@ -36,6 +36,8 @@ module Octodmin
     end
 
     def update(params)
+      site = Octodmin::Site.new
+
       # Remove old post
       octopost = Octopress::Post.new(Octopress.site, {
         "path" => @post.path,
@@ -50,12 +52,13 @@ module Octodmin
         "force" => true,
       })
 
-      content = params.delete("content")
-      date = octopost.convert_date(params.delete("date"))
-      options = Jekyll::Utils.stringify_hash_keys(params)
-      options["date"] = date
+      options = {}
+      options["date"] = octopost.convert_date(params.delete("date"))
+      site.config["octodmin"]["front_matter"].keys.each do |key|
+        options[key] ||= params[key]
+      end
 
-      result = "---\n#{options.map { |k, v| "#{k}: \"#{v}\"" }.join("\n")}\n---\n\n#{content}\n"
+      result = "---\n#{options.map { |k, v| "#{k}: \"#{v}\"" }.join("\n")}\n---\n\n#{params["content"]}\n"
       octopost.instance_variable_set(:@content, result)
       octopost.write
 
