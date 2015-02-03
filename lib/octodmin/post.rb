@@ -25,8 +25,12 @@ module Octodmin
       @post = post
     end
 
+    def path
+      @post.path
+    end
+
     def identifier
-      @post.path.split("/").last.split(".").first
+      path.split("/").last.split(".").first
     end
 
     def serializable_hash

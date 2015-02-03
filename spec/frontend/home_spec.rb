@@ -1,7 +1,7 @@
 require "spec_helper"
 
 describe "home" do
-  let(:app) { Octodmin::App.new }
+  let(:app) { Octodmin::App.new(File.expand_path("../..", __dir__)) }
 
   describe "home" do
     before { get "/" }

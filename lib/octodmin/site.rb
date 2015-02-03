@@ -20,7 +20,10 @@ module Octodmin
 
     def initialize
       @site = Jekyll::Site.new(Jekyll.configuration)
-      @site.reset
+    end
+
+    def source
+      @site.source
     end
 
     def config
@@ -32,6 +35,7 @@ module Octodmin
     end
 
     def posts
+      @site.reset
       @site.read
       @site.posts.map { |post| Post.new(post) }
     end

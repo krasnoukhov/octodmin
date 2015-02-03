@@ -2,6 +2,7 @@ ENV["RACK_ENV"] = ENV["LOTUS_ENV"] ||= "production"
 
 require "octodmin"
 require "lotus"
+require "git"
 require "json"
 
 begin
@@ -11,6 +12,10 @@ end
 
 module Octodmin
   class App < Lotus::Application
+    class << self
+      attr_accessor :dir
+    end
+
     configure do
       root __dir__
 
@@ -37,6 +42,14 @@ module Octodmin
 
     configure :test do
       handle_exceptions false
+    end
+
+    def initialize(dir = nil)
+      raise "Please specify root dir" unless dir
+      raise "Attempt to change root dir" if !self.class.dir.nil? && self.class.dir != dir
+
+      self.class.dir = dir
+      super()
     end
   end
 end

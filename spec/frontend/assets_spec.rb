@@ -1,7 +1,7 @@
 require "spec_helper"
 
 describe "assets" do
-  let(:app) { Octodmin::App.new }
+  let(:app) { Octodmin::App.new(File.expand_path("../..", __dir__)) }
 
   describe "css" do
     before { get "/assets/app.css" }

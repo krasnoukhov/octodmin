@@ -38,7 +38,7 @@ shared_examples_for "updated post" do
 end
 
 describe "posts" do
-  let(:app) { Octodmin::App.new }
+  let(:app) { Octodmin::App.new(File.expand_path("../..", __dir__)) }
   let(:date) { Date.today.strftime("%Y-%m-%d") }
 
   describe "index" do
