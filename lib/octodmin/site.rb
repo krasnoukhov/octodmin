@@ -3,16 +3,16 @@ module Octodmin
     attr_accessor :site
 
     DEFAULT_CONFIG = {
-      octodmin: {
-        front_matter: {
-          layout: {
-            type: "string",
+      "octodmin" => {
+        "front_matter" => {
+          "layout" => {
+            "type" => "string",
           },
-          title: {
-            type: "string",
+          "title" => {
+            "type" => "string",
           },
-          date: {
-            type: "date",
+          "date" => {
+            "type" => "date",
           },
         },
       },
