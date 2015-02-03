@@ -37,6 +37,14 @@ shared_examples_for "updated post" do
   end
 end
 
+shared_examples_for "deleted post" do
+  it "has no post" do
+    expect(File.exists?("sample/_posts/2015-01-30-welcome-to-jekyll.markdown")).to be_falsy
+    expect(subject["identifier"]).to eql("2015-01-30-welcome-to-jekyll")
+    expect(subject["title"]).to eql("Welcome to Jekyll!")
+  end
+end
+
 describe "posts" do
   let(:app) { Octodmin::App.new(File.expand_path("../..", __dir__)) }
   let(:date) { Date.today.strftime("%Y-%m-%d") }
@@ -130,5 +138,17 @@ describe "posts" do
       before { get "/api/posts/#{date}-updated-one" }
       it_behaves_like "updated post"
     end
+  end
+
+  describe "delete" do
+    before do
+      delete "/api/posts/2015-01-30-welcome-to-jekyll"
+    end
+    after do
+      git = Git.open(Octodmin::App.dir)
+      git.checkout("sample/_posts/2015-01-30-welcome-to-jekyll.markdown")
+    end
+    subject { parse_json(last_response.body)["posts"] }
+    it_behaves_like "deleted post"
   end
 end

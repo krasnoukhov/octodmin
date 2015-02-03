@@ -43,11 +43,7 @@ module Octodmin
       site = Octodmin::Site.new
 
       # Remove old post
-      octopost = Octopress::Post.new(Octopress.site, {
-        "path" => @post.path,
-        "date" => @post.to_liquid["date"],
-        "title" => @post.to_liquid["title"],
-      })
+      octopost = octopost_for(@post)
       File.delete(octopost.path)
 
       # Init the new one
@@ -70,6 +66,21 @@ module Octodmin
       @post = site.posts.find do |post|
         File.join(site.site.source, post.post.path) == octopost.path
       end.post
+    end
+
+    def delete
+      octopost = octopost_for(@post)
+      File.delete(octopost.path)
+    end
+
+    private
+
+    def octopost_for(post)
+      Octopress::Post.new(Octopress.site, {
+        "path" => post.path,
+        "date" => post.to_liquid["date"],
+        "title" => post.to_liquid["title"],
+      })
     end
   end
 end
