@@ -8,5 +8,3 @@ custom: data
 # OMG
 
 This is a *post*!
-
-WOW
