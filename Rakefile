@@ -1,6 +1,7 @@
 require "bundler"
 Bundler.require
 
+require "fileutils"
 require "rspec/core/rake_task"
 require "bundler/gem_tasks"
 require "sprockets/standalone"
@@ -29,4 +30,10 @@ Sprockets::Standalone::RakeTask.new(:assets) do |task, sprockets|
   task.environment = Octodmin.sprockets
 end
 
-Rake::Task["build"].enhance([:"assets:compile"])
+namespace :assets do
+  task :remove do
+    FileUtils.rm_r("./app/public/assets", force: true)
+  end
+end
+
+Rake::Task["build"].enhance([:"assets:remove", :"assets:compile"])
