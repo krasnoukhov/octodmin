@@ -27,10 +27,25 @@ describe "syncs" do
     context "valid" do
       before do
         allow_any_instance_of(Git::Base).to receive(:commit).and_return(nil)
+
+        # Create post
         post "/api/posts", title: "Yo"
+
+        # Update post
+        patch "/api/posts/2015-01-30-test", {
+          layout: "post",
+          title: "Test",
+          date: "2015-01-30 18:10:00",
+          content: "### WOW",
+        }
+
         post "/api/syncs"
       end
-      after { File.delete("sample/_posts/#{date}-yo.markdown") }
+      after do
+        File.delete("sample/_posts/#{date}-yo.markdown")
+        git = Git.open(Octodmin::App.dir)
+        git.checkout("sample/_posts/2015-01-30-test.markdown")
+      end
       subject { parse_json(last_response.body)["syncs"] }
 
       it "returns syncs" do

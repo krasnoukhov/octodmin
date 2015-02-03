@@ -45,6 +45,7 @@ module Octodmin
       # Remove old post
       octopost = Octopress::Post.new(Octopress.site, {
         "path" => @post.path,
+        "date" => @post.to_liquid["date"],
         "title" => @post.to_liquid["title"],
       })
       File.delete(octopost.path)
@@ -52,15 +53,14 @@ module Octodmin
       # Init the new one
       octopost = Octopress::Post.new(Octopress.site, {
         "path" => @post.path,
+        "date" => params["date"],
         "title" => params["title"],
         "force" => true,
       })
 
-      options = {}
-      options["date"] = octopost.convert_date(params.delete("date"))
-      site.config["octodmin"]["front_matter"].keys.each do |key|
-        options[key] ||= params[key]
-      end
+      options = site.config["octodmin"]["front_matter"].keys.map do |key|
+        [key, params[key]]
+      end.to_h
 
       result = "---\n#{options.map { |k, v| "#{k}: \"#{v}\"" }.join("\n")}\n---\n\n#{params["content"]}\n"
       octopost.instance_variable_set(:@content, result)
