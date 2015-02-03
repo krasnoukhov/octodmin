@@ -15,19 +15,21 @@
 
   componentWillMount: ->
     @fetchPosts()
-    setInterval(@fetchPosts, 5000)
+    @timer = setInterval(@fetchPosts, 5000)
 
-  renderPosts: ->
-    @state.posts.map((post) ->
-      <div className="panel panel-default" key={post.id}>
-        <div className="panel-heading">
-          <h3 className="panel-title">{post.title}</h3>
-        </div>
-        <div className="panel-body">{post.content}</div>
-        <div className="panel-footer">{post.date}</div>
-      </div>
-    )
+  componentWillUnmount: ->
+    clearInterval(@timer)
 
   render: ->
-    <div>{@renderPosts()}</div>
+    <div>
+      {@state.posts.map((post) ->
+        <div className="panel panel-default" key={post.id}>
+          <div className="panel-heading">
+            <h3 className="panel-title">{post.title}</h3>
+          </div>
+          <div className="panel-body">{post.content}</div>
+          <div className="panel-footer">{post.date}</div>
+        </div>
+      )}
+    </div>
 )
