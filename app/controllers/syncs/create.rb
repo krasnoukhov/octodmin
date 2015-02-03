@@ -5,14 +5,15 @@ module Octodmin::Controllers::Syncs
 
     def call(params)
       self.format = :json
+
       site = Octodmin::Site.new
       git = Git.open(Octodmin::App.dir)
 
       # Add only posts to commit stage
-      git.reset(".")
+      deleted = git.status.deleted.keys.map { |path| File.join(Octodmin::App.dir, path) }
       site.posts.each do |post|
         path = File.join(site.source, post.path)
-        git.add(path)
+        git.add(path) unless deleted.include?(path)
       end
 
       # Compute message

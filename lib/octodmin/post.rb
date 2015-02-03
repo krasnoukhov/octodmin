@@ -36,6 +36,7 @@ module Octodmin
     def serializable_hash
       @post.to_liquid(ATTRIBUTES_FOR_SERIALIZAION).merge(
         identifier: identifier,
+        deleted: deleted?
       )
     end
 
@@ -70,7 +71,8 @@ module Octodmin
 
     def delete
       octopost = octopost_for(@post)
-      File.delete(octopost.path)
+      git = Git.open(Octodmin::App.dir)
+      git.lib.send(:command, "rm", ["-f", "--cached", octopost.path])
     end
 
     private
@@ -81,6 +83,16 @@ module Octodmin
         "date" => post.to_liquid["date"],
         "title" => post.to_liquid["title"],
       })
+    end
+
+    def deleted?
+      site = Octodmin::Site.new
+      git = Git.open(Octodmin::App.dir)
+
+      path = File.join(site.source, @post.path)
+      deleted = git.status.deleted.keys.map { |path| File.join(Octodmin::App.dir, path) }
+
+      deleted.include?(path)
     end
   end
 end
