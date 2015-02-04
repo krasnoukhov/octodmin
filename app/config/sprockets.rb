@@ -21,13 +21,16 @@ module Octodmin
   end
 
   def self.sprockets
-    assets = File.expand_path("../../assets", __FILE__)
+    assets_path = File.expand_path("../../assets", __FILE__)
+    tmp_path = File.expand_path("../../../tmp", __FILE__)
+
     sprockets = ::Sprockets::Environment.new
-    sprockets.append_path "#{assets}/stylesheets"
-    sprockets.append_path "#{assets}/javascripts"
-    sprockets.append_path "#{assets}/fonts"
+    sprockets.append_path "#{assets_path}/stylesheets"
+    sprockets.append_path "#{assets_path}/javascripts"
+    sprockets.append_path "#{assets_path}/fonts"
     sprockets.append_path Bower.environment.directory
     sprockets.register_engine ".cjsx", CjsxProcessor
+    sprockets.cache = Sprockets::Cache::FileStore.new(tmp_path)
     sprockets
   end
 end
