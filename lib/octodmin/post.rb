@@ -90,8 +90,9 @@ module Octodmin
     def octopost_for(post)
       Octopress::Post.new(Octopress.site, {
         "path" => post.path,
-        "date" => post.to_liquid["date"],
-        "title" => post.to_liquid["title"],
+        "slug" => post.slug,
+        "date" => post.date,
+        "title" => post.title,
       })
     end
 

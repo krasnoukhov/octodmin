@@ -37,7 +37,7 @@ module Octodmin
     def posts
       reset
       @site.read
-      @site.posts.sort_by { |post| post.to_liquid["date"] }.reverse.map { |post| Post.new(post) }
+      @site.posts.sort_by(&:date).reverse.map { |post| Post.new(post) }
     end
 
     def reset
