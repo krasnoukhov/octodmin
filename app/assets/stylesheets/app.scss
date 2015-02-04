@@ -14,8 +14,17 @@ body {
   padding-bottom: 20px;
 }
 
+a, button, input, textarea, *:focus {
+  outline: 0 !important;
+  outline-style: none !important;
+}
+
 .navbar {
   margin-bottom: 20px;
+
+  .navbar-right {
+    margin-right: 0;
+  }
 }
 
 .panel-body {

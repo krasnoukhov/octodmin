@@ -23,6 +23,10 @@
 
   componentWillMount: ->
     @fetchSite()
+    $(document).on("fetchSite", @fetchSite)
+
+  componentWillUnmount: ->
+    $(document).off("fetchSite", @fetchSite)
 
   render: ->
     <Loader loaded={!!@state.site}>

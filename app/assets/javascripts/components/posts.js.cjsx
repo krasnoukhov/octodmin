@@ -2,10 +2,15 @@
 
 @Posts = React.createClass(
   getInitialState: ->
-    { alert: null, posts: [] }
+    { alert: null, loading: false, posts: [] }
 
   fetchPosts: ->
-    $.get("/api/posts").done(@handleSuccess).fail(@handleError)
+    return if @state.loading
+    @setState(loading: true)
+    $.get("/api/posts").always(@handleResponse).done(@handleSuccess).fail(@handleError)
+
+  handleResponse: ->
+    @setState(loading: false)
 
   handleSuccess: (response) ->
     @setState(alert: null, posts: response.posts)
@@ -15,9 +20,11 @@
 
   componentWillMount: ->
     @fetchPosts()
+    $(document).on("fetchPosts", @fetchPosts)
     @timer = setInterval(@fetchPosts, 5000)
 
   componentWillUnmount: ->
+    $(document).off("fetchPosts", @fetchPosts)
     clearInterval(@timer)
 
   render: ->
