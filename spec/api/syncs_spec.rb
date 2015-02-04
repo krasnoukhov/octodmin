@@ -52,7 +52,7 @@ describe "syncs" do
       subject { parse_json(last_response.body)["syncs"] }
 
       it "returns syncs" do
-        expect(subject).to eql(["Octodmin sync for 3 files\n\n_posts/2015-02-04-yo.markdown\n_posts/2015-01-30-welcome-to-jekyll.markdown\n_posts/2015-01-30-test.markdown"])
+        expect(subject).to eql(["Octodmin sync for 3 files\n\n_posts/#{date}-yo.markdown\n_posts/2015-01-30-welcome-to-jekyll.markdown\n_posts/2015-01-30-test.markdown"])
       end
     end
   end
