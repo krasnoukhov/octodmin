@@ -73,6 +73,8 @@ module Octodmin
       octopost = octopost_for(@post)
       git = Git.open(Octodmin::App.dir)
       git.lib.send(:command, "rm", ["-f", "--cached", octopost.path])
+    rescue Git::GitExecuteError
+      File.delete(octopost.path)
     end
 
     private

@@ -200,15 +200,31 @@ describe "posts" do
     end
 
     context "valid" do
-      before do
-        delete "/api/posts/2015-01-30-welcome-to-jekyll"
+      context "new post" do
+        before do
+          post "/api/posts", title: "New One"
+          delete "/api/posts/#{date}-new-one"
+          get "/api/posts/#{date}-new-one"
+        end
+        subject { parse_json(last_response.body)["errors"] }
+
+        it "has no post" do
+          expect(last_response).to_not be_ok
+          expect(subject).to eql(["Could not find post"])
+        end
       end
-      after do
-        git = Git.open(Octodmin::App.dir)
-        git.add("sample/_posts/2015-01-30-welcome-to-jekyll.markdown")
+
+      context "old post" do
+        before do
+          delete "/api/posts/2015-01-30-welcome-to-jekyll"
+        end
+        after do
+          git = Git.open(Octodmin::App.dir)
+          git.add("sample/_posts/2015-01-30-welcome-to-jekyll.markdown")
+        end
+        subject { parse_json(last_response.body)["posts"] }
+        it_behaves_like "deleted post"
       end
-      subject { parse_json(last_response.body)["posts"] }
-      it_behaves_like "deleted post"
     end
   end
 end
