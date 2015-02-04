@@ -4,6 +4,7 @@ shared_examples_for "existing post" do
   it "has post" do
     expect(subject["identifier"]).to eql("2015-01-30-test")
     expect(subject["deleted"]).to eql(false)
+    expect(subject["dirty"]).to eql(false)
     expect(subject["title"]).to eql("Test")
     expect(subject["path"]).to eql("_posts/2015-01-30-test.markdown")
     expect(subject["date"]).to eql("2015-01-30 20:10:00 +0200")
@@ -17,6 +18,7 @@ shared_examples_for "new post" do
     expect(File.exists?("sample/_posts/#{date}-new-one.markdown")).to be_truthy
     expect(subject["identifier"]).to eql("#{date}-new-one")
     expect(subject["deleted"]).to eql(false)
+    expect(subject["dirty"]).to eql(true)
     expect(subject["title"]).to eql("New One")
     expect(subject["path"]).to eql("_posts/#{date}-new-one.markdown")
     expect(subject["date"]).to start_with(date)
@@ -31,6 +33,7 @@ shared_examples_for "updated post" do
     expect(File.exists?("sample/_posts/#{date}-updated-one.markdown")).to be_truthy
     expect(subject["identifier"]).to eql("#{date}-updated-one")
     expect(subject["deleted"]).to eql(false)
+    expect(subject["dirty"]).to eql(true)
     expect(subject["title"]).to eql("Updated One")
     expect(subject["path"]).to eql("_posts/#{date}-updated-one.markdown")
     expect(subject["date"]).to start_with(date)
@@ -45,6 +48,7 @@ shared_examples_for "deleted post" do
     expect(File.exists?("sample/_posts/2015-01-30-welcome-to-jekyll.markdown")).to be_truthy
     expect(subject["identifier"]).to eql("2015-01-30-welcome-to-jekyll")
     expect(subject["deleted"]).to eql(true)
+    expect(subject["dirty"]).to eql(true)
     expect(subject["title"]).to eql("Welcome to Jekyll!")
   end
 end

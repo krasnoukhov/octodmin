@@ -23,6 +23,7 @@ module Octodmin
 
     def initialize(post)
       @post = post
+      @site = Octodmin::Site.new
     end
 
     def path
@@ -36,13 +37,12 @@ module Octodmin
     def serializable_hash
       @post.to_liquid(ATTRIBUTES_FOR_SERIALIZAION).merge(
         identifier: identifier,
-        deleted: deleted?
+        dirty: dirty?,
+        deleted: deleted?,
       )
     end
 
     def update(params)
-      site = Octodmin::Site.new
-
       # Remove old post
       delete
 
@@ -54,7 +54,7 @@ module Octodmin
         "force" => true,
       })
 
-      options = site.config["octodmin"]["front_matter"].keys.map do |key|
+      options = @site.config["octodmin"]["front_matter"].keys.map do |key|
         [key, params[key]]
       end.to_h
 
@@ -62,9 +62,8 @@ module Octodmin
       octopost.instance_variable_set(:@content, result)
       octopost.write
 
-      site = Octodmin::Site.new
-      @post = site.posts.find do |post|
-        File.join(site.site.source, post.post.path) == octopost.path
+      @post = @site.posts.find do |post|
+        File.join(@site.site.source, post.post.path) == octopost.path
       end.post
     end
 
@@ -86,14 +85,20 @@ module Octodmin
       })
     end
 
-    def deleted?
-      site = Octodmin::Site.new
+    def has_status?(post, status)
       git = Git.open(Octodmin::App.dir)
+      path = File.join(@site.source, post.path)
 
-      path = File.join(site.source, @post.path)
-      deleted = git.status.deleted.keys.map { |path| File.join(Octodmin::App.dir, path) }
+      changed = git.status.public_send(status).keys.map { |path| File.join(Octodmin::App.dir, path) }
+      changed.include?(path)
+    end
 
-      deleted.include?(path)
+    def dirty?
+      has_status?(@post, :untracked) || has_status?(@post, :changed) || deleted?
+    end
+
+    def deleted?
+      has_status?(@post, :deleted)
     end
   end
 end
