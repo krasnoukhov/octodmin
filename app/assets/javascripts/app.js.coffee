@@ -4,6 +4,7 @@
 #= require react
 #= require react-loader
 #= require react-router
+#= require momentjs/moment
 
 #= require components/shared
 #= require components/posts

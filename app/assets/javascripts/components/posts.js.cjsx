@@ -37,7 +37,7 @@
             <h3 className="panel-title">{post.title}</h3>
           </div>
           <div className="panel-body">{post.content}</div>
-          <div className="panel-footer">{post.date}</div>
+          <div className="panel-footer">{moment((new Date(post.date)).toISOString()).format("LLL")}</div>
         </div>
       )}
     </div>
