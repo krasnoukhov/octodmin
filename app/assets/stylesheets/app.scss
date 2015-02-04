@@ -17,3 +17,15 @@ body {
 .navbar {
   margin-bottom: 20px;
 }
+
+.panel-body {
+  * {
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}

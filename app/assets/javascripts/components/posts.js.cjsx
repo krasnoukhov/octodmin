@@ -33,11 +33,15 @@
           "default"
 
         <div className="panel panel-#{panelClass}" key={post.id}>
-          <div className="panel-heading">
-            <h3 className="panel-title">{post.title}</h3>
+          <div className="panel-heading clearfix">
+            <h3 className="panel-title pull-left">{post.title}</h3>
+            <div className="pull-right">
+              {moment((new Date(post.date)).toISOString()).format("LLL")}
+            </div>
           </div>
-          <div className="panel-body">{post.content}</div>
-          <div className="panel-footer">{moment((new Date(post.date)).toISOString()).format("LLL")}</div>
+          <div className="panel-body">
+            <div dangerouslySetInnerHTML={{__html: post.excerpt }} />
+          </div>
         </div>
       )}
     </div>

@@ -3,6 +3,7 @@ module Octodmin
     attr_accessor :post
 
     ATTRIBUTES_FOR_SERIALIZAION = Jekyll::Post::ATTRIBUTES_FOR_LIQUID - %w[
+      content
       previous
       next
     ]
@@ -35,7 +36,9 @@ module Octodmin
     end
 
     def serializable_hash
+      @post.render({}, "site" => @site.config)
       @post.to_liquid(ATTRIBUTES_FOR_SERIALIZAION).merge(
+        excerpt: @post.excerpt,
         identifier: identifier,
         added: added?,
         changed: changed?,
