@@ -18,8 +18,8 @@
     @setState(site: response.sites)
     $("title").text("Octodmin – #{response.sites.title}")
 
-  handleError: ->
-    alert("Could not load site")
+  handleError: (error) ->
+    alert("Could not load site: #{error.statusText} (#{error.status})")
 
   componentWillMount: ->
     @fetchSite()

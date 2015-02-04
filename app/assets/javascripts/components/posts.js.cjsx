@@ -2,16 +2,16 @@
 
 @Posts = React.createClass(
   getInitialState: ->
-    { posts: [] }
+    { alert: null, posts: [] }
 
   fetchPosts: ->
     $.get("/api/posts").done(@handleSuccess).fail(@handleError)
 
   handleSuccess: (response) ->
-    @setState(posts: response.posts)
+    @setState(alert: null, posts: response.posts)
 
-  handleError: ->
-    alert("Could not load posts")
+  handleError: (error) ->
+    @setState(alert: "Could not load posts: #{error.statusText} (#{error.status})")
 
   componentWillMount: ->
     @fetchPosts()
@@ -22,6 +22,8 @@
 
   render: ->
     <div>
+      {<div className="alert alert-danger">{@state.alert}</div> if @state.alert}
+
       {@state.posts.map((post) ->
         panelClass = if post.added
           "success"
