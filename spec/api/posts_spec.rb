@@ -10,6 +10,7 @@ shared_examples_for "existing post" do
     expect(subject["path"]).to eql("_posts/2015-01-30-test.markdown")
     expect(subject["date"]).to eql("2015-01-30 20:10:00 +0200")
     expect(subject["excerpt"]).to eql("<h1 id=\"omg\">OMG</h1>\n\n")
+    expect(subject["content"]).to eql("# OMG\n\nThis is a *post*!\n")
     expect(subject["custom"]).to eql("data")
   end
 end
@@ -25,6 +26,7 @@ shared_examples_for "new post" do
     expect(subject["path"]).to eql("_posts/#{date}-new-one.markdown")
     expect(subject["date"]).to start_with(date)
     expect(subject["excerpt"]).to eql("<p>New post from <strong>template</strong></p>\n\n")
+    expect(subject["content"]).to eql("New post from **template**\n")
     expect(subject["custom"]).to eql("default")
   end
 end
@@ -40,6 +42,7 @@ shared_examples_for "updated post" do
     expect(subject["path"]).to eql("_posts/2015-01-30-test.markdown")
     expect(subject["date"]).to eql("2015-01-30 21:10:00 +0200")
     expect(subject["excerpt"]).to eql("<h3 id=\"wow\">WOW</h3>\n\n")
+    expect(subject["content"]).to eql("### WOW\n")
     expect(subject["custom"]).to eql("new")
     expect(subject.has_key?("junk")).to be_falsy
   end
@@ -57,6 +60,7 @@ shared_examples_for "new updated post" do
     expect(subject["path"]).to eql("_posts/#{date}-updated-one.markdown")
     expect(subject["date"]).to start_with(date)
     expect(subject["excerpt"]).to eql("<h3 id=\"wow\">WOW</h3>\n\n")
+    expect(subject["content"]).to eql("### WOW\n")
     expect(subject["custom"]).to eql("updated")
     expect(subject.has_key?("junk")).to be_falsy
   end
