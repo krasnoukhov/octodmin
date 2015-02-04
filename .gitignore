@@ -18,3 +18,4 @@ tmp
 .ruby-gemset
 .ruby-version
 app/public
+bower_components

@@ -1,6 +1,7 @@
 require "sprockets"
 require "coffee_script"
 require "coffee-react"
+require "bower"
 
 module Octodmin
   module CjsxProcessor
@@ -25,6 +26,7 @@ module Octodmin
     sprockets.append_path "#{assets}/stylesheets"
     sprockets.append_path "#{assets}/javascripts"
     sprockets.append_path "#{assets}/fonts"
+    sprockets.append_path Bower.environment.directory
     sprockets.register_engine ".cjsx", CjsxProcessor
     sprockets
   end

@@ -1,9 +1,9 @@
-#= require vendor/jquery
-#= require vendor/bootstrap
-#= require vendor/spin.js
-#= require vendor/react
-#= require vendor/react-loader
-#= require vendor/react-router
+#= require jquery
+#= require bootstrap
+#= require spin.js/spin.js
+#= require react
+#= require react-loader
+#= require react-router
 
 #= require components/shared
 #= require components/posts

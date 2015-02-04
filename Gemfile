@@ -3,6 +3,7 @@ gemspec
 
 gem "rake",                   "~> 10.0"
 gem "sprockets",              "~> 3.0.0.beta"
+gem "bower",                  "~> 0.0.2"
 gem "sprockets-standalone",   github: "krasnoukhov/sprockets-standalone"
 gem "coffee-react",           "~> 2.1.0"
 gem "lotusrb",                github: "lotus/lotus"

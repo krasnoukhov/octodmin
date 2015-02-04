@@ -1,0 +1,13 @@
+{
+  "name": "octodmin",
+  "dependencies": {
+    "jquery": "~2.1.3",
+    "bootstrap-sass": "~3.3.2",
+    "spin.js": "~2.0.2",
+    "react": "~0.12.0",
+    "react-loader": "~1.1.0",
+    "react-router": "~0.11.6",
+    "fontawesome": "~4.3.0",
+    "bootswatch": "~3.3.2"
+  }
+}

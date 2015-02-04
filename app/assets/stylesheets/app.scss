@@ -1,11 +1,12 @@
 @charset "utf-8";
 
-$fa-font-path: "/assets";
+$fa-font-path: "/assets/fontawesome/fonts";
 
 @import
-  "vendor/bootstrap",
-  "vendor/bootswatch",
-  "vendor/fontawesome/font-awesome"
+  "bootswatch/flatly/variables",
+  "bootstrap-sass/assets/stylesheets/bootstrap",
+  "bootswatch/flatly/bootswatch",
+  "fontawesome/scss/font-awesome"
 ;
 
 body {
