@@ -37,7 +37,8 @@ module Octodmin
     def serializable_hash
       @post.to_liquid(ATTRIBUTES_FOR_SERIALIZAION).merge(
         identifier: identifier,
-        dirty: dirty?,
+        added: added?,
+        changed: changed?,
         deleted: deleted?,
       )
     end
@@ -65,6 +66,11 @@ module Octodmin
       @post = @site.posts.find do |post|
         File.join(@site.site.source, post.post.path) == octopost.path
       end.post
+
+      # Add/reset post just in case
+      git = Git.open(Octodmin::App.dir)
+      git.add(octopost.path)
+      git.reset(octopost.path)
     end
 
     def delete
@@ -86,15 +92,18 @@ module Octodmin
     end
 
     def has_status?(post, status)
-      git = Git.open(Octodmin::App.dir)
       path = File.join(@site.source, post.path)
-
-      changed = git.status.public_send(status).keys.map { |path| File.join(Octodmin::App.dir, path) }
-      changed.include?(path)
+      changed = @site.status.public_send(status).keys
+      paths = changed.map { |path| File.join(Octodmin::App.dir, path) }
+      paths.include?(path)
     end
 
-    def dirty?
-      has_status?(@post, :untracked) || has_status?(@post, :changed) || deleted?
+    def added?
+      has_status?(@post, :untracked) && !changed? && !deleted?
+    end
+
+    def changed?
+      has_status?(@post, :changed)
     end
 
     def deleted?

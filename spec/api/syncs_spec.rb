@@ -32,7 +32,7 @@ describe "syncs" do
 
         # Update post
         patch "/api/posts/2015-01-30-test", {
-          layout: "post",
+          layout: "other",
           title: "Test",
           date: "2015-01-30 18:10:00",
           content: "### WOW",

@@ -23,12 +23,14 @@
   render: ->
     <div>
       {@state.posts.map((post) ->
-        panelClass = if post.deleted
-          "danger"
-        else if post.dirty
+        panelClass = if post.added
+          "success"
+        else if post.changed
           "warning"
+        else if post.deleted
+          "danger"
         else
-          "info"
+          "default"
 
         <div className="panel panel-#{panelClass}" key={post.id}>
           <div className="panel-heading">

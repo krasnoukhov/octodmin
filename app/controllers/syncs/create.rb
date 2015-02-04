@@ -10,14 +10,14 @@ module Octodmin::Controllers::Syncs
       git = Git.open(Octodmin::App.dir)
 
       # Add only posts to commit stage
-      deleted = git.status.deleted.keys.map { |path| File.join(Octodmin::App.dir, path) }
+      deleted = site.status.deleted.keys.map { |path| File.join(Octodmin::App.dir, path) }
       site.posts.each do |post|
         path = File.join(site.source, post.path)
         git.add(path) unless deleted.include?(path)
       end
 
       # Compute message
-      status = git.status
+      status = site.reset.status
       paths = (
         status.changed.keys +
         status.added.keys +

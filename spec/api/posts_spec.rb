@@ -3,8 +3,9 @@ require "spec_helper"
 shared_examples_for "existing post" do
   it "has post" do
     expect(subject["identifier"]).to eql("2015-01-30-test")
+    expect(subject["added"]).to eql(false)
+    expect(subject["changed"]).to eql(false)
     expect(subject["deleted"]).to eql(false)
-    expect(subject["dirty"]).to eql(false)
     expect(subject["title"]).to eql("Test")
     expect(subject["path"]).to eql("_posts/2015-01-30-test.markdown")
     expect(subject["date"]).to eql("2015-01-30 20:10:00 +0200")
@@ -17,8 +18,9 @@ shared_examples_for "new post" do
   it "has post" do
     expect(File.exists?("sample/_posts/#{date}-new-one.markdown")).to be_truthy
     expect(subject["identifier"]).to eql("#{date}-new-one")
+    expect(subject["added"]).to eql(true)
+    expect(subject["changed"]).to eql(false)
     expect(subject["deleted"]).to eql(false)
-    expect(subject["dirty"]).to eql(true)
     expect(subject["title"]).to eql("New One")
     expect(subject["path"]).to eql("_posts/#{date}-new-one.markdown")
     expect(subject["date"]).to start_with(date)
@@ -29,11 +31,28 @@ end
 
 shared_examples_for "updated post" do
   it "has post" do
+    expect(File.exists?("sample/_posts/2015-01-30-test.markdown")).to be_truthy
+    expect(subject["identifier"]).to eql("2015-01-30-test")
+    expect(subject["added"]).to eql(false)
+    expect(subject["changed"]).to eql(true)
+    expect(subject["deleted"]).to eql(false)
+    expect(subject["title"]).to eql("Test")
+    expect(subject["path"]).to eql("_posts/2015-01-30-test.markdown")
+    expect(subject["date"]).to eql("2015-01-30 21:10:00 +0200")
+    expect(subject["content"]).to eql("### WOW\n")
+    expect(subject["custom"]).to eql("new")
+    expect(subject.has_key?("junk")).to be_falsy
+  end
+end
+
+shared_examples_for "new updated post" do
+  it "has post" do
     expect(File.exists?("sample/_posts/#{date}-new-one.markdown")).to be_falsy
     expect(File.exists?("sample/_posts/#{date}-updated-one.markdown")).to be_truthy
     expect(subject["identifier"]).to eql("#{date}-updated-one")
+    expect(subject["added"]).to eql(true)
+    expect(subject["changed"]).to eql(false)
     expect(subject["deleted"]).to eql(false)
-    expect(subject["dirty"]).to eql(true)
     expect(subject["title"]).to eql("Updated One")
     expect(subject["path"]).to eql("_posts/#{date}-updated-one.markdown")
     expect(subject["date"]).to start_with(date)
@@ -43,12 +62,14 @@ shared_examples_for "updated post" do
   end
 end
 
+
 shared_examples_for "deleted post" do
   it "has no post" do
     expect(File.exists?("sample/_posts/2015-01-30-welcome-to-jekyll.markdown")).to be_truthy
     expect(subject["identifier"]).to eql("2015-01-30-welcome-to-jekyll")
+    expect(subject["added"]).to eql(false)
+    expect(subject["changed"]).to eql(false)
     expect(subject["deleted"]).to eql(true)
-    expect(subject["dirty"]).to eql(true)
     expect(subject["title"]).to eql("Welcome to Jekyll!")
   end
 end
@@ -162,29 +183,58 @@ describe "posts" do
     end
 
     context "valid" do
-      before do
-        post "/api/posts", title: "New One"
-        patch "/api/posts/#{date}-new-one", {
-          layout: "post",
-          title: "Updated One",
-          date: "#{date} 00:00:00",
-          content: "### WOW",
-          custom: "updated",
-          junk: "shit",
-        }
-      end
-      after do
-        File.delete("sample/_posts/#{date}-updated-one.markdown")
-      end
-      subject { parse_json(last_response.body)["posts"] }
+      context "old post" do
+        before do
+          patch "/api/posts/2015-01-30-test", {
+            layout: "other",
+            title: "Test",
+            date: "2015-01-30 21:10:00",
+            content: "### WOW",
+            custom: "new",
+            junk: "shit",
+          }
+        end
+        after do
+          git = Git.open(Octodmin::App.dir)
+          git.checkout("sample/_posts/2015-01-30-test.markdown")
+        end
+        subject { parse_json(last_response.body)["posts"] }
 
-      context "response" do
-        it_behaves_like "updated post"
+        context "response" do
+          it_behaves_like "updated post"
+        end
+
+        context "request" do
+          before { get "/api/posts/2015-01-30-test" }
+          it_behaves_like "updated post"
+        end
       end
 
-      context "request" do
-        before { get "/api/posts/#{date}-updated-one" }
-        it_behaves_like "updated post"
+      context "new post" do
+        before do
+          post "/api/posts", title: "New One"
+          patch "/api/posts/#{date}-new-one", {
+            layout: "post",
+            title: "Updated One",
+            date: "#{date} 00:00:00",
+            content: "### WOW",
+            custom: "updated",
+            junk: "shit",
+          }
+        end
+        after do
+          File.delete("sample/_posts/#{date}-updated-one.markdown")
+        end
+        subject { parse_json(last_response.body)["posts"] }
+
+        context "response" do
+          it_behaves_like "new updated post"
+        end
+
+        context "request" do
+          before { get "/api/posts/#{date}-updated-one" }
+          it_behaves_like "new updated post"
+        end
       end
     end
   end
