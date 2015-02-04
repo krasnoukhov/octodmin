@@ -44,8 +44,7 @@ module Octodmin
       site = Octodmin::Site.new
 
       # Remove old post
-      octopost = octopost_for(@post)
-      File.delete(octopost.path)
+      delete
 
       # Init the new one
       octopost = Octopress::Post.new(Octopress.site, {
