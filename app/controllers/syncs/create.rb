@@ -9,14 +9,14 @@ module Octodmin::Controllers::Syncs
       site = Octodmin::Site.new
       git = Git.open(Octodmin::App.dir)
 
-      # Add only posts to commit stage
+      # Add posts only to commit stage
       deleted = site.status.deleted.keys.map { |path| File.join(Octodmin::App.dir, path) }
       site.posts.each do |post|
         path = File.join(site.source, post.path)
         git.add(path) unless deleted.include?(path)
       end
 
-      # Compute message
+      # Compute staged paths
       status = site.reset.status
       paths = (
         status.changed.keys +
@@ -27,12 +27,19 @@ module Octodmin::Controllers::Syncs
         paths.any? { |path| path.end_with?(post.path) }
       end.map(&:path)
 
-      @message  = "Octodmin sync for #{staged.count} file#{"s" if staged.count > 1}"
-      @message += "\n\n#{staged.join("\n")}"
-
+      # Pull changes
       git.pull
-      git.commit(@message)
-      git.push
+
+      # Commit and push changes if any
+      if staged.any?
+        @message  = "Octodmin sync for #{staged.count} file#{"s" if staged.count > 1}"
+        @message += "\n\n#{staged.join("\n")}"
+
+        git.commit(@message)
+        git.push
+      else
+        @message = "Everything is up-to-date"
+      end
     rescue Git::GitExecuteError => e
       halt 400, JSON.dump(errors: [e.message])
     ensure
