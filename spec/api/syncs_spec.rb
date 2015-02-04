@@ -19,8 +19,7 @@ describe "syncs" do
 
       it "returns errors" do
         expect(last_response).to_not be_ok
-        expect(subject.count).to eql(1)
-        expect(subject.first).to eql("Git error")
+        expect(subject).to eql(["Git error"])
       end
     end
 

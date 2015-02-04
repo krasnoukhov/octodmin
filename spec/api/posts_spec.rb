@@ -72,12 +72,14 @@ describe "posts" do
 
   describe "create" do
     context "invalid" do
+      subject { parse_json(last_response.body)["errors"] }
+
       context "no title" do
         before { post "/api/posts" }
 
         it "is not ok" do
           expect(last_response).to_not be_ok
-          expect(last_response.body).to include("Required param `title` is not specified")
+          expect(subject).to eql(["Required param `title` is not specified"])
         end
       end
 
@@ -90,7 +92,7 @@ describe "posts" do
 
         it "is not ok" do
           expect(last_response).to_not be_ok
-          expect(last_response.body).to include("Post with specified `title` already exists")
+          expect(subject).to eql(["Post with specified `title` already exists"])
         end
       end
     end
@@ -112,47 +114,101 @@ describe "posts" do
   end
 
   describe "show" do
-    before { get "/api/posts/2015-01-30-test" }
-    subject { parse_json(last_response.body)["posts"] }
-    it_behaves_like "existing post"
+    context "invalid" do
+      subject { parse_json(last_response.body)["errors"] }
+
+      context "no post" do
+        before { get "/api/posts/omg" }
+
+        it "is not ok" do
+          expect(last_response).to_not be_ok
+          expect(subject).to eql(["Could not find post"])
+        end
+      end
+    end
+
+    context "valid" do
+      before { get "/api/posts/2015-01-30-test" }
+      subject { parse_json(last_response.body)["posts"] }
+      it_behaves_like "existing post"
+    end
   end
 
   describe "update" do
-    before do
-      post "/api/posts", title: "New One"
-      patch "/api/posts/#{date}-new-one", {
-        layout: "post",
-        title: "Updated One",
-        date: "#{date} 00:00:00",
-        content: "### WOW",
-        custom: "updated",
-        junk: "shit",
-      }
-    end
-    after do
-      File.delete("sample/_posts/#{date}-updated-one.markdown")
-    end
-    subject { parse_json(last_response.body)["posts"] }
+    context "invalid" do
+      subject { parse_json(last_response.body)["errors"] }
 
-    context "response" do
-      it_behaves_like "updated post"
+      context "no post" do
+        before { patch "/api/posts/omg" }
+
+        it "is not ok" do
+          expect(last_response).to_not be_ok
+          expect(subject).to eql(["Could not find post"])
+        end
+      end
+
+      context "no params" do
+        before { patch "/api/posts/2015-01-30-test" }
+
+        it "is not ok" do
+          expect(last_response).to_not be_ok
+          expect(subject).to eql(["Required params are not specified"])
+        end
+      end
     end
 
-    context "request" do
-      before { get "/api/posts/#{date}-updated-one" }
-      it_behaves_like "updated post"
+    context "valid" do
+      before do
+        post "/api/posts", title: "New One"
+        patch "/api/posts/#{date}-new-one", {
+          layout: "post",
+          title: "Updated One",
+          date: "#{date} 00:00:00",
+          content: "### WOW",
+          custom: "updated",
+          junk: "shit",
+        }
+      end
+      after do
+        File.delete("sample/_posts/#{date}-updated-one.markdown")
+      end
+      subject { parse_json(last_response.body)["posts"] }
+
+      context "response" do
+        it_behaves_like "updated post"
+      end
+
+      context "request" do
+        before { get "/api/posts/#{date}-updated-one" }
+        it_behaves_like "updated post"
+      end
     end
   end
 
   describe "delete" do
-    before do
-      delete "/api/posts/2015-01-30-welcome-to-jekyll"
+    context "invalid" do
+      subject { parse_json(last_response.body)["errors"] }
+
+      context "no post" do
+        before { delete "/api/posts/omg" }
+
+        it "is not ok" do
+          expect(last_response).to_not be_ok
+          expect(subject).to eql(["Could not find post"])
+        end
+      end
     end
-    after do
-      git = Git.open(Octodmin::App.dir)
-      git.add("sample/_posts/2015-01-30-welcome-to-jekyll.markdown")
+
+    context "valid" do
+      before do
+        delete "/api/posts/2015-01-30-welcome-to-jekyll"
+      end
+      after do
+        git = Git.open(Octodmin::App.dir)
+        git.add("sample/_posts/2015-01-30-welcome-to-jekyll.markdown")
+      end
+      subject { parse_json(last_response.body)["posts"] }
+      it_behaves_like "deleted post"
     end
-    subject { parse_json(last_response.body)["posts"] }
-    it_behaves_like "deleted post"
   end
 end

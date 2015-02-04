@@ -8,15 +8,11 @@ module Octodmin::Controllers::Posts
     end
 
     def call(params)
-      halt 400, "Required param `title` is not specified" unless params.valid?
-      post = Octodmin::Post.create(title: params[:title])
+      self.format = :json
+      halt 400, JSON.dump(errors: ["Required param `title` is not specified"]) unless params.valid?
 
-      if post
-        self.format = :json
-        @post = post
-      else
-        halt 400, "Post with specified `title` already exists"
-      end
+      @post = Octodmin::Post.create(title: params[:title])
+      halt 400, JSON.dump(errors: ["Post with specified `title` already exists"]) unless @post
     end
   end
 end
