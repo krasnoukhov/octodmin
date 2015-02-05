@@ -4,6 +4,7 @@ module Octodmin
 
     DEFAULT_CONFIG = {
       "octodmin" => {
+        "transliterate" => "latin",
         "front_matter" => {
           "layout" => {
             "type" => "string",

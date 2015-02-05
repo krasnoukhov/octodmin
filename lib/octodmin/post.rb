@@ -13,10 +13,15 @@ module Octodmin
     end
 
     def self.create(options = {})
+      site = Octodmin::Site.new
+
+      # Prepare slug
+      options[:slug] = options[:title].to_slug.transliterate(site.config["octodmin"]["transliterate"]).normalize.to_s
+
+      # Create post
       post = Octopress::Post.new(Octopress.site, Jekyll::Utils.stringify_hash_keys(options))
       post.write
 
-      site = Octodmin::Site.new
       site.posts.first
     rescue RuntimeError
     end

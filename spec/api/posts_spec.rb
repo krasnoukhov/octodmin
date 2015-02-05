@@ -127,17 +127,32 @@ describe "posts" do
     end
 
     context "valid" do
-      before { post "/api/posts", title: "New One" }
-      after { File.delete("sample/_posts/#{date}-new-one.markdown") }
-      subject { parse_json(last_response.body)["posts"] }
+      context "regular post" do
+        before { post "/api/posts", title: "New One" }
+        after { File.delete("sample/_posts/#{date}-new-one.markdown") }
+        subject { parse_json(last_response.body)["posts"] }
 
-      context "response" do
-        it_behaves_like "new post"
+        context "response" do
+          it_behaves_like "new post"
+        end
+
+        context "request" do
+          before { get "/api/posts/#{date}-new-one" }
+          it_behaves_like "new post"
+        end
       end
 
-      context "request" do
-        before { get "/api/posts/#{date}-new-one" }
-        it_behaves_like "new post"
+      context "special post" do
+        before { post "/api/posts", title: "Тестовий" }
+        after { File.delete("sample/_posts/#{date}-testovyi.markdown") }
+        subject { parse_json(last_response.body)["posts"] }
+
+        context "response" do
+          it "has post" do
+            expect(File.exists?("sample/_posts/#{date}-testovyi.markdown")).to be_truthy
+            expect(subject["identifier"]).to eql("#{date}-testovyi")
+          end
+        end
       end
     end
   end

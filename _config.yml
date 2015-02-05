@@ -19,6 +19,7 @@ post_ext: markdown
 
 # Octodmin settings
 octodmin:
+  transliterate: ukrainian
   front_matter:
     custom:
       type: "string"
