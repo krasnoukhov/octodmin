@@ -7,7 +7,7 @@ Content management for Jekyll blogs
 [![Coverage Status](https://img.shields.io/coveralls/krasnoukhov/octodmin.svg)](https://coveralls.io/r/krasnoukhov/octodmin?branch=master)
 [![Code Climate](https://img.shields.io/codeclimate/github/krasnoukhov/octodmin.svg)](https://codeclimate.com/github/krasnoukhov/octodmin)
 
-![Screencast](http://i.imgur.com/SazYNe8.gifv)
+![Screencast](http://i.imgur.com/SazYNe8.gif)
 
 ## Installation
 
