@@ -3,14 +3,13 @@
 $fa-font-path: "/assets/fontawesome/fonts";
 
 @import
-  "bootswatch/flatly/variables",
+  "bootswatch/paper/variables",
   "bootstrap-sass/assets/stylesheets/bootstrap",
-  "bootswatch/flatly/bootswatch",
+  "bootswatch/paper/bootswatch",
   "fontawesome/scss/font-awesome"
 ;
 
 body {
-  padding-top: 20px;
   padding-bottom: 20px;
 }
 
@@ -24,6 +23,10 @@ a, button, input, textarea, *:focus {
 
   .navbar-right {
     margin-right: 0;
+
+    .btn {
+      margin-left: 10px;
+    }
   }
 }
 
