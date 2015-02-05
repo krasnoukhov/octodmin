@@ -14,6 +14,9 @@ github_username:  jekyll
 # Build settings
 markdown: kramdown
 
+# Octopress settings
+post_ext: markdown
+
 # Octodmin settings
 octodmin:
   front_matter:
