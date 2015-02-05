@@ -77,9 +77,7 @@ module Octodmin
       octopost.instance_variable_set(:@content, result)
       octopost.write
 
-      @post = @site.posts.find do |post|
-        File.join(@site.site.source, post.post.path) == octopost.path
-      end.post
+      @post = post_for(octopost)
 
       # Add/reset post just in case
       git = Git.open(Octodmin::App.dir)
@@ -101,7 +99,21 @@ module Octodmin
       octopost = octopost_for(@post)
       git = Git.open(Octodmin::App.dir)
       git.add(octopost.path)
+
       @site.reset
+      @post = post_for(octopost)
+    end
+
+    def revert
+      return unless changed?
+
+      octopost = octopost_for(@post)
+      git = Git.open(Octodmin::App.dir)
+      git.reset(octopost.path)
+      git.checkout(octopost.path)
+
+      @site.reset
+      @post = post_for(octopost)
     end
 
     private
@@ -119,6 +131,12 @@ module Octodmin
         "slug" => post.slug,
         "title" => post.title,
       })
+    end
+
+    def post_for(octopost)
+      @site.posts.find do |post|
+        File.join(@site.site.source, post.post.path) == octopost.path
+      end.post
     end
 
     def has_status?(post, status)

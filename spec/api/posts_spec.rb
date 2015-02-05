@@ -366,4 +366,46 @@ describe "posts" do
       end
     end
   end
+
+  describe "revert" do
+    context "invalid" do
+      subject { parse_json(last_response.body)["errors"] }
+
+      context "no post" do
+        before { patch "/api/posts/omg/revert" }
+
+        it "is not ok" do
+          expect(last_response).to_not be_ok
+          expect(subject).to eql(["Could not find post"])
+        end
+      end
+    end
+
+    context "valid" do
+      context "existing post" do
+        before do
+          patch "/api/posts/2015-01-30-test/revert"
+        end
+        subject { parse_json(last_response.body)["posts"] }
+        it_behaves_like "existing post"
+      end
+
+      context "changed post" do
+        before do
+          patch "/api/posts/2015-01-30-test", {
+            layout: "other",
+            title: "Test",
+            slug: "test",
+            date: "2015-01-30 21:10:00",
+            content: "### WOW",
+            custom: "new",
+            junk: "shit",
+          }
+          patch "/api/posts/2015-01-30-test/revert"
+        end
+        subject { parse_json(last_response.body)["posts"] }
+        it_behaves_like "existing post"
+      end
+    end
+  end
 end

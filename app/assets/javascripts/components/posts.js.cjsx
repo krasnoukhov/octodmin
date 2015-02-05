@@ -81,10 +81,10 @@
 
         <form ref="form" className="form-inline" onSubmit={@handleSubmit}>
           <fieldset className="row" disabled={@state.loading}>
-            <div className="col-sm-10 form-group form-group-lg">
+            <div className="col-sm-9 form-group form-group-lg">
               <input className="form-control" style={width: '100%'} name="title" placeholder="Type the title of your new post here" required />
             </div>
-            <div className="col-sm-2 buttons">
+            <div className="col-sm-3 buttons">
               <button type="submit" className="btn btn-lg btn-default">Create</button>
             </div>
           </fieldset>
@@ -115,6 +115,15 @@
 
   handleEdit: ->
     @transitionTo("post_edit", post_id: @props.post.identifier)
+
+  handleRevert: ->
+    return if @state.loading
+    @setState(loading: true)
+
+    $.ajax(type: "PATCH", url: "/api/posts/#{@props.post.identifier}/revert").
+      always(@handleResponse).
+      done(@handleSuccess).
+      fail(@handleError)
 
   handleDelete: ->
     if @props.post.added
@@ -159,8 +168,8 @@
         {<div className="alert alert-danger">{@state.alert}</div> if @state.alert}
 
         <div className="row">
-          <div className="col-sm-10 excerpt" dangerouslySetInnerHTML={{__html: @props.post.excerpt }} />
-          <div className="col-sm-2 buttons">
+          <div className="col-sm-9 excerpt" dangerouslySetInnerHTML={{__html: @props.post.excerpt }} />
+          <div className="col-sm-3 buttons">
             {if @props.post.deleted
               <div className="btn-group btn-group-sm">
                 <button className="btn btn-default #{'disabled' if @state.loading}" onClick={@handleRestore}>Restore</button>
@@ -168,6 +177,9 @@
             else
               <div className="btn-group btn-group-sm">
                 <button className="btn btn-default #{'disabled' if @state.loading}" onClick={@handleEdit}>Edit</button>
+                {if @props.post.changed
+                  <button className="btn btn-warning #{'disabled' if @state.loading}" onClick={@handleRevert}>Revert</button>
+                }
                 <button className="btn btn-danger #{'disabled' if @state.loading}" onClick={@handleDelete}>Delete</button>
               </div>
             }

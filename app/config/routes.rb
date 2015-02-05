@@ -4,6 +4,7 @@ namespace "api" do
   resources :posts do
     member do
       patch :restore
+      patch :revert
     end
   end
   resources :syncs, only: [:create]
