@@ -39,6 +39,7 @@
 
 routes =
   <Route path="/" name="app" handler={@App}>
+    <Route path="/posts/:post_id/edit" name="post_edit" handler={@PostEdit} />
     <DefaultRoute handler={@Posts} />
   </Route>
 

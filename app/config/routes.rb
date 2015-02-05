@@ -13,4 +13,5 @@ if ENV["LOTUS_ENV"] != "production"
   mount Octodmin.sprockets, at: "/assets"
 end
 
+get "/posts*", to: "frontend#index"
 get "/", to: "frontend#index", as: :home
