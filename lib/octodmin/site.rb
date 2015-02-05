@@ -7,13 +7,13 @@ module Octodmin
         "transliterate" => "latin",
         "front_matter" => {
           "layout" => {
-            "type" => "string",
+            "type" => "text",
           },
           "title" => {
-            "type" => "string",
+            "type" => "text",
           },
           "date" => {
-            "type" => "date",
+            "type" => "datetime-local",
           },
         },
       },

@@ -2,13 +2,15 @@
   "name": "octodmin",
   "dependencies": {
     "jquery": "~2.1.3",
+    "jquery-serialize-object": "~2.4.5",
     "bootstrap-sass": "~3.3.2",
+    "bootstrap-markdown": "~2.8.0",
     "spin.js": "~2.0.2",
     "react": "~0.12.0",
     "react-loader": "~1.1.0",
     "react-router": "~0.11.6",
     "fontawesome": "~4.3.0",
     "bootswatch": "~3.3.2",
-    "momentjs": "~2.9.0"
+    "momentjs": "~2.9.0",
   }
 }

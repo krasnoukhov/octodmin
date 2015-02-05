@@ -7,6 +7,13 @@
 @DefaultRoute = Router.DefaultRoute
 @RouteHandler = Router.RouteHandler
 
+@Container = React.createClass(
+  render: ->
+    <div className="container">
+      {@props.children}
+    </div>
+)
+
 @App = React.createClass(
   getInitialState: ->
     { site: null }

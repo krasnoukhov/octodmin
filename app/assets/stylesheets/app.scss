@@ -1,9 +1,9 @@
 @charset "utf-8";
-
 $fa-font-path: "/assets/fontawesome/fonts";
-
+@import "bootswatch/paper/variables";
+$icon-font-path: "/assets/bootstrap/fonts/";
+//= require bootstrap-markdown
 @import
-  "bootswatch/paper/variables",
   "bootstrap-sass/assets/stylesheets/bootstrap",
   "bootswatch/paper/bootswatch",
   "fontawesome/scss/font-awesome"
@@ -52,6 +52,24 @@ a, button, input, textarea, *:focus {
 
     .buttons {
       text-align: center;
+    }
+  }
+}
+
+.post-edit {
+  .md-editor {
+    .md-header {
+      margin-bottom: 15px;
+    }
+
+    .md-content {
+      width: 100%;
+    }
+  }
+
+  .buttons {
+    .btn {
+      margin-left: 10px;
     }
   }
 }

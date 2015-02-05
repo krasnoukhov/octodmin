@@ -1,12 +1,5 @@
 # @cjsx React.DOM
 
-@Container = React.createClass(
-  render: ->
-    <div className="container">
-      {@props.children}
-    </div>
-)
-
 @Header = React.createClass(
   propTypes:
     site: React.PropTypes.object.isRequired
@@ -24,10 +17,14 @@
 
   handleSuccess: (response) ->
     @setState(success: response.syncs.join("\n").replace(/\n/g, "<br>"))
+    setTimeout(@removeSuccess, 5000)
     $(document).trigger("fetchPosts")
 
   handleError: (error) ->
     @setState(alert: error.responseJSON?.errors.join("\n").replace(/\n/g, "<br>"))
+
+  removeSuccess: ->
+    @setState(success: null) if @isMounted()
 
   handleBlur: ->
     @setState(alert: null, success: null) if @isMounted()

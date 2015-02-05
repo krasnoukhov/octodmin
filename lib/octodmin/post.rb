@@ -16,7 +16,7 @@ module Octodmin
       site = Octodmin::Site.new
 
       # Prepare slug
-      options[:slug] = options[:title].to_slug.transliterate(site.config["octodmin"]["transliterate"]).normalize.to_s
+      options["slug"] = slug_for(site, options[:title])
 
       # Create post
       post = Octopress::Post.new(Octopress.site, Jekyll::Utils.stringify_hash_keys(options))
@@ -60,6 +60,7 @@ module Octodmin
       octopost = Octopress::Post.new(Octopress.site, {
         "path" => @post.path,
         "date" => params["date"],
+        "slug" => self.class.slug_for(@site, params["title"]),
         "title" => params["title"],
         "force" => true,
       })
@@ -101,11 +102,17 @@ module Octodmin
 
     private
 
+    def self.slug_for(site, title)
+      title.to_slug.transliterate(
+        site.config["octodmin"]["transliterate"]
+      ).normalize.to_s
+    end
+
     def octopost_for(post)
       Octopress::Post.new(Octopress.site, {
         "path" => post.path,
-        "slug" => post.slug,
         "date" => post.date,
+        "slug" => post.slug,
         "title" => post.title,
       })
     end

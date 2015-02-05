@@ -22,4 +22,4 @@ octodmin:
   transliterate: ukrainian
   front_matter:
     custom:
-      type: "string"
+      type: "text"

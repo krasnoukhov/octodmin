@@ -255,6 +255,31 @@ describe "posts" do
           it_behaves_like "new updated post"
         end
       end
+
+      context "special post" do
+        before do
+          post "/api/posts", title: "New One"
+          patch "/api/posts/#{date}-new-one", {
+            layout: "post",
+            title: "Новий",
+            date: "#{date} 00:00:00",
+            content: "### WOW",
+            custom: "updated",
+            junk: "shit",
+          }
+        end
+        after do
+          File.delete("sample/_posts/#{date}-novyi.markdown")
+        end
+        subject { parse_json(last_response.body)["posts"] }
+
+        context "response" do
+          it "has post" do
+            expect(File.exists?("sample/_posts/#{date}-novyi.markdown")).to be_truthy
+            expect(subject["identifier"]).to eql("#{date}-novyi")
+          end
+        end
+      end
     end
   end
 
