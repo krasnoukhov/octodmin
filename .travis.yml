@@ -1,6 +1,9 @@
 sudo: false
 language: ruby
-script: 'bundle exec rake spec:coverage'
+before_script:
+- npm install -g bower
+- bower install
+script: bundle exec rake spec:coverage
 rvm:
   - 2.1
   - 2.2

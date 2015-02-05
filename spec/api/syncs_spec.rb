@@ -60,7 +60,7 @@ end
           }
 
           # Delete post
-          delete "/api/posts/2015-01-30-welcome-to-jekyll"
+          delete "/api/posts/2015-01-29-welcome-to-jekyll"
 
           post "/api/syncs"
         end
@@ -68,12 +68,12 @@ end
           File.delete("sample/_posts/#{date}-yo.markdown")
           git = Git.open(Octodmin::App.dir)
           git.checkout("sample/_posts/2015-01-30-test.markdown")
-          git.checkout("sample/_posts/2015-01-30-welcome-to-jekyll.markdown")
+          git.checkout("sample/_posts/2015-01-29-welcome-to-jekyll.markdown")
         end
         subject { parse_json(last_response.body)["syncs"] }
 
         it "returns syncs" do
-          expect(subject).to eql(["Octodmin sync for 3 files\n\n_posts/#{date}-yo.markdown\n_posts/2015-01-30-welcome-to-jekyll.markdown\n_posts/2015-01-30-test.markdown"])
+          expect(subject).to eql(["Octodmin sync for 3 files\n\n_posts/#{date}-yo.markdown\n_posts/2015-01-30-test.markdown\n_posts/2015-01-29-welcome-to-jekyll.markdown"])
         end
       end
     end

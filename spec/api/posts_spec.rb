@@ -73,8 +73,8 @@ end
 
 shared_examples_for "deleted post" do
   it "has no post" do
-    expect(File.exists?("sample/_posts/2015-01-30-welcome-to-jekyll.markdown")).to be_truthy
-    expect(subject["identifier"]).to eql("2015-01-30-welcome-to-jekyll")
+    expect(File.exists?("sample/_posts/2015-01-29-welcome-to-jekyll.markdown")).to be_truthy
+    expect(subject["identifier"]).to eql("2015-01-29-welcome-to-jekyll")
     expect(subject["added"]).to eql(false)
     expect(subject["changed"]).to eql(false)
     expect(subject["deleted"]).to eql(true)
@@ -97,7 +97,7 @@ describe "posts" do
 
     context "last post" do
       specify do
-        expect(subject.last["identifier"]).to eql("2015-01-30-welcome-to-jekyll")
+        expect(subject.last["identifier"]).to eql("2015-01-29-welcome-to-jekyll")
         expect(subject.last["title"]).to eql("Welcome to Jekyll!")
       end
     end
@@ -321,11 +321,11 @@ describe "posts" do
 
       context "old post" do
         before do
-          delete "/api/posts/2015-01-30-welcome-to-jekyll"
+          delete "/api/posts/2015-01-29-welcome-to-jekyll"
         end
         after do
           git = Git.open(Octodmin::App.dir)
-          git.add("sample/_posts/2015-01-30-welcome-to-jekyll.markdown")
+          git.add("sample/_posts/2015-01-29-welcome-to-jekyll.markdown")
         end
         subject { parse_json(last_response.body)["posts"] }
         it_behaves_like "deleted post"
