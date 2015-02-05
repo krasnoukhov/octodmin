@@ -43,7 +43,7 @@ $ rackup
 
 ## Configuration
 
-Octodmin can be configured using `_config.yml`.  For example:
+Octodmin can be configured using `_config.yml`. For example:
 
 ```yaml
 # Octodmin settings
