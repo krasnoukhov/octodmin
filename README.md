@@ -7,6 +7,8 @@ Octodmin is a Web UI for Jekyll/Octopress blogs.
 [![Coverage Status](https://img.shields.io/coveralls/krasnoukhov/octodmin.svg)](https://coveralls.io/r/krasnoukhov/octodmin?branch=master)
 [![Code Climate](https://img.shields.io/codeclimate/github/krasnoukhov/octodmin.svg)](https://codeclimate.com/github/krasnoukhov/octodmin)
 
+![Screencast](http://i.imgur.com/SazYNe8.gifv)
+
 ## Installation
 
 Add this line to your Jekyll/Octopress project's Gemfile:
