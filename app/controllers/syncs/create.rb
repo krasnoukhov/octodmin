@@ -10,22 +10,10 @@ module Octodmin::Controllers::Syncs
       git = Git.open(Octodmin::App.dir)
 
       # Add posts only to commit stage
-      deleted = site.status.deleted.keys.map { |path| File.join(Octodmin::App.dir, path) }
-      site.posts.each do |post|
-        path = File.join(site.source, post.path)
-        git.add(path) unless deleted.include?(path)
-      end
+      stage(site, git)
 
       # Compute staged paths
-      status = site.reset.status
-      paths = (
-        status.changed.keys +
-        status.added.keys +
-        status.deleted.keys
-      ).map { |path| File.join(Octodmin::App.dir, path) }
-      staged = site.posts.select do |post|
-        paths.any? { |path| path.end_with?(post.path) }
-      end.map(&:path)
+      staged = paths(site, git)
 
       # Pull changes
       git.pull
@@ -44,6 +32,31 @@ module Octodmin::Controllers::Syncs
       halt 400, JSON.dump(errors: [e.message])
     ensure
       git.reset(".")
+    end
+
+    private
+
+    def stage(site, git)
+      deleted = site.status.deleted.keys.map { |path| File.join(Octodmin::App.dir, path) }
+
+      site.posts.each do |post|
+        path = File.join(site.source, post.path)
+        git.add(path) unless deleted.include?(path)
+      end
+    end
+
+    def paths(site, git)
+      status = site.reset.status
+
+      paths = (
+        status.changed.keys +
+        status.added.keys +
+        status.deleted.keys
+      ).map { |path| File.join(Octodmin::App.dir, path) }
+
+      site.posts.select do |post|
+        paths.any? { |path| path.end_with?(post.path) }
+      end.map(&:path)
     end
   end
 end
