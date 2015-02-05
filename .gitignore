@@ -19,3 +19,6 @@ tmp
 .ruby-version
 app/public
 bower_components
+_site
+.sass-cache
+.deploy

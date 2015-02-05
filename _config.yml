@@ -20,6 +20,8 @@ post_ext: markdown
 # Octodmin settings
 octodmin:
   transliterate: ukrainian
+  deploys:
+    - config_file: _deploy.yml
   front_matter:
     custom:
       type: "text"

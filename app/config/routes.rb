@@ -8,6 +8,7 @@ namespace "api" do
     end
   end
   resources :syncs, only: [:create]
+  resources :deploys, only: [:create]
 end
 
 if ENV["LOTUS_ENV"] != "production"

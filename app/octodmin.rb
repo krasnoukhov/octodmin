@@ -4,6 +4,7 @@ require "octodmin"
 require "lotus"
 require "git"
 require "json"
+require "octopress-deploy"
 
 begin
   require_relative "./config/sprockets"

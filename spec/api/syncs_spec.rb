@@ -7,12 +7,13 @@ describe "syncs" do
   before do
     allow_any_instance_of(Git::Base).to receive(:pull).and_return(nil)
     allow_any_instance_of(Git::Base).to receive(:push).and_return(nil)
-  end
+end
 
   describe "create" do
     context "invalid" do
       before do
         allow_any_instance_of(Git::Base).to receive(:pull).and_raise(Git::GitExecuteError, "Git error")
+        expect_any_instance_of(Git::Base).to receive(:pull).once
 
         post "/api/posts", title: "Blah"
         post "/api/syncs"
@@ -29,6 +30,7 @@ describe "syncs" do
     context "valid" do
       context "no changes" do
         before do
+          expect_any_instance_of(Git::Base).to receive(:pull).once
           post "/api/syncs"
         end
         subject { parse_json(last_response.body)["syncs"] }
@@ -41,6 +43,9 @@ describe "syncs" do
       context "with changes" do
         before do
           allow_any_instance_of(Git::Base).to receive(:commit).and_return(nil)
+          expect_any_instance_of(Git::Base).to receive(:pull).once
+          expect_any_instance_of(Git::Base).to receive(:commit).once
+          expect_any_instance_of(Git::Base).to receive(:push).once
 
           # Create post
           post "/api/posts", title: "Yo"

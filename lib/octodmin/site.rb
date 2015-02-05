@@ -53,5 +53,9 @@ module Octodmin
     def status
       @status ||= Git.open(Octodmin::App.dir).status
     end
+
+    def process
+      @site.process
+    end
   end
 end
