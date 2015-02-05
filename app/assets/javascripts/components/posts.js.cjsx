@@ -233,7 +233,8 @@
     @fetchPost()
 
   componentDidUpdate: ->
-    return unless @refs.editor
+    return if !@state.post || !@refs.editor
+    return if !/markdown$/.test(@state.post.path) && !/md$/.test(@state.post.path)
 
     $(@refs.editor.getDOMNode()).markdown(
       autofocus: false
@@ -262,7 +263,7 @@
               </div>
             </div>
 
-            <textarea ref="editor" className="md-content" name="content" rows="15" defaultValue={@state.post.content} required></textarea>
+            <textarea ref="editor" className="md-content" name="content" rows="15" defaultValue={@state.post.content} placeholder="Post content" required></textarea>
 
             {Object.keys(@frontMatter()).map(((key) ->
               if key != "title" && key != "date"
