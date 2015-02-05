@@ -76,15 +76,6 @@ post_ext: markdown
 post_layout: post
 ```
 
-Please note that Octodmin uses Octopress internally, so make sure you
-there is proper config, for example:
-
-```yaml
-# Octopress
-post_ext: markdown
-post_layout: post
-```
-
 ## Deployment
 
 Since Octodmin is a simple Rack app, use your favorite Ruby application server.
