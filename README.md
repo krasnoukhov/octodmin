@@ -43,9 +43,7 @@ $ rackup
 
 ## Configuration
 
-Octodmin can be configured through `_config.yml` options.
-
-Here is an example:
+Octodmin can be configured using `_config.yml`.  For example:
 
 ```yaml
 # Octodmin settings
@@ -58,16 +56,25 @@ octodmin:
       type: "text"
 ```
 
-Options:
+Valid options:
 
 `transliterate`: use any of [babosa](https://github.com/norman/babosa#locale-sensitive-transliteration-with-support-for-many-languages)'s
-transliterations for proper slug generation. Default is `latin`
+languages for slug transliteration. Default is `latin`
 
-`deploys`: if you use `octopress-deploy`, specify your deploy config
-file so there would be a deploy button in UI
+`deploys`: if you use `octopress-deploy`, specify your deploy configuration
+file to get a "Deploy" button in Octodmin.
 
 `front_matter`: if you use custom front matter attributes, specify all
-of these so post edit form would be extended with corresponding inputs
+of them to extend the edit form with corresponding inputs.
+
+Please note that Octodmin uses Octopress internally, so make sure you configure it
+accordingly. For example:
+
+```yaml
+# Octopress
+post_ext: markdown
+post_layout: post
+```
 
 Please note that Octodmin uses Octopress internally, so make sure you
 there is proper config, for example:
@@ -80,21 +87,20 @@ post_layout: post
 
 ## Deployment
 
-Since Octodmin is a simple Rack app, use your favorite Ruby
-application server.
-For example, add `puma` to Gemfile, run `bundle` and run `rackup`.
+Since Octodmin is a simple Rack app, use your favorite Ruby application server.
+For example, add `puma` to Gemfile, run `bundle`, and then `rackup`.
 That's it.
 
-When deploying Octodmin to server, make sure you're able to run
-`git pull`, `git push` and `octopress deploy` (if you use that)
-commands from the shell of deployment user.
+When deploying Octodmin to a remote server, make sure you're able to run
+`git pull`, `git push` and `octopress deploy` (if needed) successfully
+in the shell of your remote user.
 
 ## Development and testing
 
-You have to have `npm` and `bower` installed. Run `bower install` to
-install asset dependencies.
+You would need `npm` and `bower`. Run `bower install` to install asset
+dependencies.
 
-Run `rackup` to start development server.
+Run `rackup` to start the development server.
 
 Run `rspec` to run tests.
 
