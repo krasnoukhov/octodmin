@@ -85,6 +85,15 @@ module Octodmin
       File.delete(octopost.path)
     end
 
+    def restore
+      return unless deleted?
+
+      octopost = octopost_for(@post)
+      git = Git.open(Octodmin::App.dir)
+      git.add(octopost.path)
+      @site.reset
+    end
+
     private
 
     def octopost_for(post)

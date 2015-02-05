@@ -1,7 +1,11 @@
 namespace "api" do
   resource  :version, only: [:show]
   resource  :site, only: [:show]
-  resources :posts
+  resources :posts do
+    member do
+      patch :restore
+    end
+  end
   resources :syncs, only: [:create]
 end
 

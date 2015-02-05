@@ -285,4 +285,38 @@ describe "posts" do
       end
     end
   end
+
+  describe "restore" do
+    context "invalid" do
+      subject { parse_json(last_response.body)["errors"] }
+
+      context "no post" do
+        before { patch "/api/posts/omg/restore" }
+
+        it "is not ok" do
+          expect(last_response).to_not be_ok
+          expect(subject).to eql(["Could not find post"])
+        end
+      end
+    end
+
+    context "valid" do
+      context "existing post" do
+        before do
+          patch "/api/posts/2015-01-30-test/restore"
+        end
+        subject { parse_json(last_response.body)["posts"] }
+        it_behaves_like "existing post"
+      end
+
+      context "deleted post" do
+        before do
+          delete "/api/posts/2015-01-30-test"
+          patch "/api/posts/2015-01-30-test/restore"
+        end
+        subject { parse_json(last_response.body)["posts"] }
+        it_behaves_like "existing post"
+      end
+    end
+  end
 end

@@ -27,14 +27,28 @@ a, button, input, textarea, *:focus {
   }
 }
 
-.panel-body {
-  * {
-    &:first-child {
-      margin-top: 0;
+.panel {
+  .panel-heading {
+    line-height: 26px;
+
+    h3 {
+      font-size: 26px;
+    }
+  }
+
+  .panel-body {
+    .excerpt {
+      :first-child {
+        margin-top: 0;
+      }
+
+      :last-child {
+        margin-bottom: 0;
+      }
     }
 
-    &:last-child {
-      margin-bottom: 0;
+    .buttons {
+      text-align: center;
     }
   }
 }
