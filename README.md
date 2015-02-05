@@ -1,6 +1,6 @@
 # Octodmin
 
-Octodmin is a Web UI for Jekyll/Octopress blogs.
+Content management for Jekyll blogs
 
 [![Gem Version](https://badge.fury.io/rb/octodmin.svg)](http://badge.fury.io/rb/octodmin)
 [![Build Status](https://secure.travis-ci.org/krasnoukhov/octodmin.svg?branch=master)](http://travis-ci.org/krasnoukhov/octodmin?branch=master)
@@ -11,7 +11,7 @@ Octodmin is a Web UI for Jekyll/Octopress blogs.
 
 ## Installation
 
-Add this line to your Jekyll/Octopress project's Gemfile:
+Add this line to your Jekyll project's Gemfile:
 
 ```ruby
 gem 'octodmin', '~> 0.1.0'
@@ -68,6 +68,15 @@ file so there would be a deploy button in UI
 
 `front_matter`: if you use custom front matter attributes, specify all
 of these so post edit form would be extended with corresponding inputs
+
+Please note that Octodmin uses Octopress internally, so make sure you
+there is proper config, for example:
+
+```yaml
+# Octopress
+post_ext: markdown
+post_layout: post
+```
 
 ## Deployment
 

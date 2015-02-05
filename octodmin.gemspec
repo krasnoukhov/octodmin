@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.version       = Octodmin::VERSION
   spec.authors       = ["Dmitry Krasnoukhov"]
   spec.email         = ["dmitry@krasnoukhov.com"]
-  spec.summary       = spec.description = %q{Web GUI for Jekyll/Octopress blogs}
+  spec.summary       = spec.description = %q{Content management for Jekyll blogs}
   spec.homepage      = "https://github.com/krasnoukhov/octodmin"
   spec.license       = "MIT"
 
