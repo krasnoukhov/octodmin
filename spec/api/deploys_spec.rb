@@ -10,7 +10,7 @@ describe "deploys" do
   describe "create" do
     context "invalid" do
       before do
-        allow(Octopress::Deploy).to receive(:push).and_raise(StandardError, "Deploy error")
+        allow(Octopress::Deploy).to receive(:push).and_raise(SystemExit, "Deploy error")
         post "/api/deploys"
       end
       subject { parse_json(last_response.body)["errors"] }
