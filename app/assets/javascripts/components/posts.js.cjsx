@@ -251,7 +251,6 @@
     $(@refs.editor.getDOMNode()).markdown(
       autofocus: false
       savable: false
-      hiddenButtons: "cmdPreview"
       iconlibrary: "fa"
       resize: "vertical"
       fullscreen:
