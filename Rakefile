@@ -10,7 +10,7 @@ require "sprockets/standalone"
 RSpec::Core::RakeTask.new(:spec)
 
 namespace :spec do
-  task :coverage do
+  task coverage: :"assets:remove" do
     ENV["COVERAGE"] = "true"
     Rake::Task["spec"].invoke
   end
@@ -32,6 +32,7 @@ end
 
 namespace :assets do
   task :remove do
+    FileUtils.rm_r("./tmp/sprockets", force: true)
     FileUtils.rm_r("./app/public/assets", force: true)
   end
 end
