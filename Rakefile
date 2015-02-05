@@ -1,6 +1,4 @@
-require "bundler"
-Bundler.require
-
+require "bundler/setup"
 require "fileutils"
 require "rspec/core/rake_task"
 require "bundler/gem_tasks"
