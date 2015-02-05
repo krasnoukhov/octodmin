@@ -12,6 +12,9 @@ module Octodmin
           "title" => {
             "type" => "text",
           },
+          "slug" => {
+            "type" => "text",
+          },
           "date" => {
             "type" => "datetime-local",
           },

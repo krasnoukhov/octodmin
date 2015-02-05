@@ -12,7 +12,7 @@ describe "site" do
     end
 
     it "returns octodmin config" do
-      expect(subject["octodmin"]["front_matter"].keys).to eq(["layout", "title", "date", "custom"])
+      expect(subject["octodmin"]["front_matter"].keys).to eq(["layout", "title", "slug", "date", "custom"])
     end
   end
 end

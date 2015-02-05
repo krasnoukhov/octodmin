@@ -6,6 +6,7 @@ module Octodmin::Controllers::Posts
     params do
       param :layout, presence: true
       param :title, presence: true
+      param :slug, presence: true
       param :date, presence: true
       param :content, presence: true
     end

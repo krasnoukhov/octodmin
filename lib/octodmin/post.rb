@@ -46,6 +46,7 @@ module Octodmin
       hash.merge(
         excerpt: @post.excerpt,
         identifier: identifier,
+        slug: @post.slug,
         added: added?,
         changed: changed?,
         deleted: deleted?,
@@ -60,7 +61,7 @@ module Octodmin
       octopost = Octopress::Post.new(Octopress.site, {
         "path" => @post.path,
         "date" => params["date"],
-        "slug" => self.class.slug_for(@site, params["title"]),
+        "slug" => params["slug"],
         "title" => params["title"],
         "force" => true,
       })

@@ -49,6 +49,7 @@ describe "syncs" do
           patch "/api/posts/2015-01-30-test", {
             layout: "other",
             title: "Test",
+            slug: "test",
             date: "2015-01-30 18:10:00",
             content: "### WOW",
           }

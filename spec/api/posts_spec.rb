@@ -7,6 +7,7 @@ shared_examples_for "existing post" do
     expect(subject["changed"]).to eql(false)
     expect(subject["deleted"]).to eql(false)
     expect(subject["title"]).to eql("Test")
+    expect(subject["slug"]).to eql("test")
     expect(subject["path"]).to eql("_posts/2015-01-30-test.markdown")
     expect(subject["date"]).to eql("2015-01-30 20:10:00 +0200")
     expect(subject["excerpt"]).to eql("<h1 id=\"omg\">OMG</h1>\n\n")
@@ -23,6 +24,7 @@ shared_examples_for "new post" do
     expect(subject["changed"]).to eql(false)
     expect(subject["deleted"]).to eql(false)
     expect(subject["title"]).to eql("New One")
+    expect(subject["slug"]).to eql("new-one")
     expect(subject["path"]).to eql("_posts/#{date}-new-one.markdown")
     expect(subject["date"]).to start_with(date)
     expect(subject["excerpt"]).to eql("<p>New post from <strong>template</strong></p>\n\n")
@@ -39,6 +41,7 @@ shared_examples_for "updated post" do
     expect(subject["changed"]).to eql(true)
     expect(subject["deleted"]).to eql(false)
     expect(subject["title"]).to eql("Test")
+    expect(subject["slug"]).to eql("test")
     expect(subject["path"]).to eql("_posts/2015-01-30-test.markdown")
     expect(subject["date"]).to eql("2015-01-30 21:10:00 +0200")
     expect(subject["excerpt"]).to eql("<h3 id=\"wow\">WOW</h3>\n\n")
@@ -57,6 +60,7 @@ shared_examples_for "new updated post" do
     expect(subject["changed"]).to eql(false)
     expect(subject["deleted"]).to eql(false)
     expect(subject["title"]).to eql("Updated One")
+    expect(subject["slug"]).to eql("updated-one")
     expect(subject["path"]).to eql("_posts/#{date}-updated-one.markdown")
     expect(subject["date"]).to start_with(date)
     expect(subject["excerpt"]).to eql("<h3 id=\"wow\">WOW</h3>\n\n")
@@ -207,6 +211,7 @@ describe "posts" do
           patch "/api/posts/2015-01-30-test", {
             layout: "other",
             title: "Test",
+            slug: "test",
             date: "2015-01-30 21:10:00",
             content: "### WOW",
             custom: "new",
@@ -235,6 +240,7 @@ describe "posts" do
           patch "/api/posts/#{date}-new-one", {
             layout: "post",
             title: "Updated One",
+            slug: "updated-one",
             date: "#{date} 00:00:00",
             content: "### WOW",
             custom: "updated",
@@ -262,6 +268,7 @@ describe "posts" do
           patch "/api/posts/#{date}-new-one", {
             layout: "post",
             title: "Новий",
+            slug: "novyi",
             date: "#{date} 00:00:00",
             content: "### WOW",
             custom: "updated",
