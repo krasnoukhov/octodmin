@@ -41,10 +41,12 @@ module Octodmin
 
     def serializable_hash
       hash = @post.to_liquid(ATTRIBUTES_FOR_SERIALIZAION).dup
-      @post.render({}, "site" => @site.config)
+
+      excerpt = Jekyll::Excerpt.new(@post)
+      excerpt.do_layout({ "site" => @site.config }, {})
 
       hash.merge(
-        excerpt: @post.excerpt,
+        excerpt: excerpt.content,
         identifier: identifier,
         slug: @post.slug,
         added: added?,
@@ -70,7 +72,8 @@ module Octodmin
         [key, params[key]]
       end.to_h
 
-      result = "---\n#{options.map { |k, v| "#{k}: \"#{v}\"" }.join("\n")}\n---\n\n#{params["content"]}\n"
+      content = params["content"].gsub("\r\n", "\n").strip
+      result = "---\n#{options.map { |k, v| "#{k}: \"#{v}\"" }.join("\n")}\n---\n\n#{content}\n"
       octopost.instance_variable_set(:@content, result)
       octopost.write
 

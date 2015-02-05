@@ -192,9 +192,6 @@
   frontMatter: ->
     @props.site.octodmin.front_matter
 
-  computeDate: ->
-    moment((new Date(@state.post.date)).toISOString()).format("YYYY-MM-DDTHH:MM:SS")
-
   fetchPost: ->
     return if @state.loading
     @setState(loading: true)
@@ -210,8 +207,6 @@
     @setState(loading: true)
 
     data = @form().serializeObject()
-    data.date = moment((new Date(data.date)).toISOString()).format("YYYY-MM-DD HH:MM:SS")
-
     $.ajax(type: "PATCH", url: "/api/posts/#{@state.post.identifier}", data: data).
       always(@handleResponse).
       done(@handleFormSuccess).
@@ -263,7 +258,7 @@
                 <input type={@frontMatter().title.type} className="form-control" name="title" placeholder="Title" defaultValue={@state.post.title} required />
               </div>
               <div className="col-sm-4">
-                <input type={@frontMatter().date.type} className="form-control" name="date" placeholder="Date" defaultValue={@computeDate()} required />
+                <input type={@frontMatter().date.type} className="form-control" name="date" placeholder="Date" defaultValue={@state.post.date} required />
               </div>
             </div>
 
