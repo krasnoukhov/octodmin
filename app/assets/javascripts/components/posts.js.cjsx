@@ -40,6 +40,15 @@
           <PostPartial key={post.identifier} site={@props.site} post={post} />
         ).bind(this))}
       </Loader>
+
+      <footer className="row">
+        <div className="col-sm-3">
+          <iframe src="http://ghbtns.com/github-btn.html?user=krasnoukhov&repo=octodmin&type=watch&count=true" allowTransparency="true" frameBorder="0" scrolling="no" style={border: "none", overflow: "hidden", width: "170px", height: "20px"}></iframe>
+        </div>
+        <div className="col-sm-9" style={textAlign: "right"}>
+          <a href="https://github.com/krasnoukhov/octodmin" target="_blank">Octodmin</a>, open source project by <a href="http://www.krasnoukhov.com"  target="_blank">Dmitry Krasnoukhov</a>
+        </div>
+      </footer>
     </div>
 )
 
