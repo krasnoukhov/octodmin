@@ -86,6 +86,17 @@ When deploying Octodmin to a remote server, make sure you're able to run
 `git pull`, `git push` and `octopress deploy` (if needed) successfully
 in the shell of your remote user.
 
+For basic HTTP authentication, use `Rack::Auth::Basic`.
+Example for your `config.ru`:
+
+```ruby
+use Rack::Auth::Basic, "Octodmin" do |username, password|
+  [username, password] == [ENV["USERNAME"], ENV["PASSWORD"]]
+end
+```
+
+Just set ENV variables and you're good to go.
+
 ## Development and testing
 
 You would need `npm` and `bower`. Run `bower install` to install asset
