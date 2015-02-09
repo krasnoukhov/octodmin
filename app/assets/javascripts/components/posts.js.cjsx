@@ -24,11 +24,9 @@
   componentWillMount: ->
     @fetchPosts()
     $(document).on("fetchPosts", @fetchPosts)
-    @timer = setInterval(@fetchPosts, 5000)
 
   componentWillUnmount: ->
     $(document).off("fetchPosts", @fetchPosts)
-    clearInterval(@timer)
 
   render: ->
     <div>
