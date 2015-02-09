@@ -68,9 +68,9 @@ module Octodmin
         "force" => true,
       })
 
-      options = @site.config["octodmin"]["front_matter"].keys.map do |key|
+      options = Hash[@site.config["octodmin"]["front_matter"].keys.map do |key|
         [key, params[key]]
-      end.to_h
+      end]
 
       content = params["content"].gsub("\r\n", "\n").strip
       result = "---\n#{options.map { |k, v| "#{k}: \"#{v}\"" }.join("\n")}\n---\n\n#{content}\n"
