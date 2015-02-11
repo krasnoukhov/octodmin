@@ -5,7 +5,7 @@
     site: React.PropTypes.object.isRequired
 
   getInitialState: ->
-    { alert: null, success: null, loading: false }
+    { loading: false }
 
   handleSync: ->
     return if @state.loading
@@ -21,23 +21,15 @@
     @setState(loading: false)
 
   handleSyncSuccess: (response) ->
-    @setState(success: response.syncs.join("\n").replace(/\n/g, "<br>"))
-    setTimeout(@removeSuccess, 5000)
+    $.growl(response.syncs.join("\n").replace(/\n/g, "<br>"), growlSuccess)
     $(document).trigger("fetchPosts")
 
   handleDeploySuccess: (response) ->
-    @setState(success: response.deploys.join("\n"))
-    setTimeout(@removeSuccess, 5000)
+    $.growl(response.deploys.join("\n"), growlSuccess)
     $(document).trigger("fetchPosts")
 
   handleError: (error) ->
-    @setState(alert: error.responseJSON?.errors.join("\n").replace(/\n/g, "<br>"))
-
-  removeSuccess: ->
-    @setState(success: null) if @isMounted()
-
-  handleBlur: ->
-    @setState(alert: null, success: null) if @isMounted()
+    $.growl(error.responseJSON?.errors.join("\n").replace(/\n/g, "<br>"), growlError)
 
   render: ->
     <div>
@@ -47,13 +39,13 @@
             <Link to="app" className="navbar-brand"><i className="fa fa-fw fa-cog"></i> {@props.site.title}</Link>
           </div>
           <div className="navbar-right">
-            <button className="btn btn-primary navbar-btn #{'disabled' if @state.loading}" onClick={@handleSync} onBlur={@handleBlur}>
+            <button className="btn btn-primary navbar-btn #{'disabled' if @state.loading}" onClick={@handleSync}>
               <i className="fa fa-fw fa-refresh"></i> Sync
             </button>
             {if @props.site.octodmin.deploys
               deploy = @props.site.octodmin.deploys[0]
 
-              <button className="btn btn-primary navbar-btn #{'disabled' if @state.loading}" onClick={@handleDeploy} onBlur={@handleBlur}>
+              <button className="btn btn-primary navbar-btn #{'disabled' if @state.loading}" onClick={@handleDeploy}>
                 <i className="fa fa-fw fa-ship"></i> Deploy
               </button>
             }
@@ -63,7 +55,5 @@
           </div>
         </div>
       </nav>
-      {<div className="alert alert-danger"><span dangerouslySetInnerHTML={{__html: @state.alert }}></span></div> if @state.alert}
-      {<div className="alert alert-success"><span dangerouslySetInnerHTML={{__html: @state.success }}></span></div> if @state.success}
     </div>
 )

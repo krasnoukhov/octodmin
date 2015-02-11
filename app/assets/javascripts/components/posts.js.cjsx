@@ -5,7 +5,7 @@
     site: React.PropTypes.object.isRequired
 
   getInitialState: ->
-    { alert: null, loading: false, posts: null }
+    { loading: false, posts: null }
 
   fetchPosts: ->
     return if @state.loading
@@ -16,10 +16,10 @@
     @setState(loading: false) if @isMounted()
 
   handleSuccess: (response) ->
-    @setState(alert: null, posts: response.posts) if @isMounted()
+    @setState(posts: response.posts) if @isMounted()
 
   handleError: (error) ->
-    @setState(alert: "Could not load posts: #{error.statusText} (#{error.status})") if @isMounted()
+    $.growl("Could not load posts: #{error.statusText} (#{error.status})", growlError)
 
   componentWillMount: ->
     @fetchPosts()
@@ -30,7 +30,6 @@
 
   render: ->
     <div>
-      {<div className="alert alert-danger">{@state.alert}</div> if @state.alert}
       <NewPostPartial site={@props.site} />
 
       <Loader loaded={!!@state.posts}>
@@ -57,7 +56,7 @@
     site: React.PropTypes.object.isRequired
 
   getInitialState: ->
-    { alert: null, loading: false }
+    { loading: false }
 
   form: ->
     $(@refs.form.getDOMNode())
@@ -73,19 +72,16 @@
     @setState(loading: false)
 
   handleSuccess: (response) ->
-    @setState(alert: null)
     @form()[0].reset()
     $(document).trigger("fetchPosts")
     @transitionTo("post_edit", post_id: response.posts.identifier)
 
   handleError: (error) ->
-    @setState(alert: error.responseJSON?.errors.join(", "))
+    $.growl(error.responseJSON?.errors.join(", "), growlError)
 
   render: ->
     <div className="panel panel-default">
       <div className="panel-body">
-        {<div className="alert alert-danger">{@state.alert}</div> if @state.alert}
-
         <form ref="form" className="form-inline" onSubmit={@handleSubmit}>
           <fieldset className="row" disabled={@state.loading}>
             <div className="col-sm-9 form-group form-group-lg">
@@ -108,7 +104,7 @@
     post: React.PropTypes.object.isRequired
 
   getInitialState: ->
-    { alert: null, loading: false }
+    { loading: false }
 
   panelClass: ->
     if @props.post.added
@@ -157,11 +153,10 @@
     @setState(loading: false)
 
   handleSuccess: (response) ->
-    @setState(alert: null)
     $(document).trigger("fetchPosts")
 
   handleError: (error) ->
-    @setState(alert: "Could not load post: #{error.statusText} (#{error.status})")
+    $.growl("Could not load post: #{error.statusText} (#{error.status})", growlError)
 
   render: ->
     <div className="panel panel-#{@panelClass()}">
@@ -172,8 +167,6 @@
         </div>
       </div>
       <div className="panel-body">
-        {<div className="alert alert-danger">{@state.alert}</div> if @state.alert}
-
         <div className="row">
           <div className="col-sm-9 excerpt" dangerouslySetInnerHTML={{__html: @props.post.excerpt }} />
           <div className="col-sm-3 buttons">
@@ -203,7 +196,7 @@
     site: React.PropTypes.object.isRequired
 
   getInitialState: ->
-    { alert: null, success: null, loading: false, post: null }
+    { loading: false, post: null }
 
   form: ->
     $(@refs.form.getDOMNode())
@@ -235,18 +228,14 @@
     @setState(loading: false)
 
   handleSuccess: (response) ->
-    @setState(alert: null, post: response.posts)
+    @setState(post: response.posts)
 
   handleFormSuccess: (response) ->
-    @setState(alert: null, success: "Post is updated")
-    setTimeout(@removeSuccess, 5000)
+    $.growl("Post is updated", growlSuccess)
     @transitionTo("post_edit", post_id: response.posts.identifier)
 
   handleError: (error) ->
-    @setState(alert: error.responseJSON?.errors.join(", "))
-
-  removeSuccess: ->
-    @setState(success: null) if @isMounted()
+    $.growl(error.responseJSON?.errors.join(", "), growlError)
 
   componentWillMount: ->
     @fetchPost()
@@ -266,9 +255,6 @@
 
   render: ->
     <Loader loaded={!!@state.post}>
-      {<div className="alert alert-danger">{@state.alert}</div> if @state.alert}
-      {<div className="alert alert-success">{@state.success}</div> if @state.success}
-
       {if @state.post
         <form ref="form" className="form-horizontal post-edit" onSubmit={@handleSubmit}>
           <fieldset disabled={@state.loading}>

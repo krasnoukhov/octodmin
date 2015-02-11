@@ -5,6 +5,7 @@
     "jquery-serialize-object": "~2.4.5",
     "bootstrap-sass": "~3.3.2",
     "bootstrap-markdown": "~2.8.0",
+    "bootstrap.growl": "~2.0.1",
     "spin.js": "~2.0.2",
     "react": "~0.12.0",
     "react-loader": "~1.1.0",

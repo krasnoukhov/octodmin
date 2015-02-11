@@ -2,6 +2,7 @@
 #= require jquery-serialize-object
 #= require bootstrap
 #= require bootstrap-markdown
+#= require bootstrap.growl/bootstrap-growl
 #= require spin.js/spin.js
 #= require react
 #= require react-loader
