@@ -14,7 +14,7 @@ Content management for Jekyll blogs
 Add this line to your Jekyll project's Gemfile:
 
 ```ruby
-gem 'octodmin', '~> 0.1.0'
+gem 'octodmin'
 ```
 
 And then execute:
