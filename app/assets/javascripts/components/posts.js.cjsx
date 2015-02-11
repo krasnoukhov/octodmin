@@ -168,7 +168,7 @@
       <div className="panel-heading clearfix">
         <h3 className="panel-title pull-left">{@props.post.title}</h3>
         <div className="pull-right">
-          {moment((new Date(@props.post.date)).toISOString()).format("LLL")}
+          {moment((new Date(@props.post.date.replace(/-/g, "/"))).toISOString()).format("LLL")}
         </div>
       </div>
       <div className="panel-body">
