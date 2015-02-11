@@ -31,6 +31,12 @@ a, button, input, textarea, *:focus {
 }
 
 .panel {
+  &:not(.panel-default) {
+    .panel-heading {
+      color: #fff;
+    }
+  }
+
   .panel-heading {
     line-height: 26px;
 
