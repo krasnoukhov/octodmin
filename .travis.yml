@@ -5,5 +5,6 @@ before_script:
 - bower install
 script: bundle exec rake spec:coverage
 rvm:
+  - 2.0
   - 2.1
   - 2.2
