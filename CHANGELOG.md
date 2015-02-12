@@ -1,3 +1,8 @@
+v0.2.1
+------
+
+* Bring back posts refreshing
+
 v0.2.0
 ------
 
