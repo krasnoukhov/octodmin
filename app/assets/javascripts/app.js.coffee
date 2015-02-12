@@ -1,5 +1,6 @@
 #= require jquery
 #= require jquery-serialize-object
+#= require ajaxq
 #= require bootstrap
 #= require bootstrap-markdown
 #= require bootstrap.growl/bootstrap-growl

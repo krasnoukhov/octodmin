@@ -3,6 +3,7 @@
   "dependencies": {
     "jquery": "~2.1.3",
     "jquery-serialize-object": "~2.4.5",
+    "ajaxq": "~0.0.2",
     "bootstrap-sass": "~3.3.2",
     "bootstrap-markdown": "~2.8.0",
     "bootstrap.growl": "~2.0.1",

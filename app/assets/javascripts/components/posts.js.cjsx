@@ -10,7 +10,7 @@
   fetchPosts: ->
     return if @state.loading
     @setState(loading: true)
-    $.get("/api/posts").always(@handleResponse).done(@handleSuccess).fail(@handleError)
+    $.getq("default", "/api/posts").always(@handleResponse).done(@handleSuccess).fail(@handleError)
 
   handleResponse: ->
     @setState(loading: false) if @isMounted()
@@ -23,9 +23,11 @@
 
   componentWillMount: ->
     @fetchPosts()
+    @timer = setInterval(@fetchPosts, 5000)
     $(document).on("fetchPosts", @fetchPosts)
 
   componentWillUnmount: ->
+    clearInterval(@timer)
     $(document).off("fetchPosts", @fetchPosts)
 
   render: ->
@@ -66,7 +68,7 @@
     return if @state.loading
 
     @setState(loading: true)
-    $.post("/api/posts", @form().serialize()).always(@handleResponse).done(@handleSuccess).fail(@handleError)
+    $.postq("default", "/api/posts", @form().serialize()).always(@handleResponse).done(@handleSuccess).fail(@handleError)
 
   handleResponse: ->
     @setState(loading: false)
@@ -123,7 +125,7 @@
     return if @state.loading
     @setState(loading: true)
 
-    $.ajax(type: "PATCH", url: "/api/posts/#{@props.post.identifier}/revert").
+    $.ajaxq("default", type: "PATCH", url: "/api/posts/#{@props.post.identifier}/revert").
       always(@handleResponse).
       done(@handleSuccess).
       fail(@handleError)
@@ -135,7 +137,7 @@
     return if @state.loading
     @setState(loading: true)
 
-    $.ajax(type: "DELETE", url: "/api/posts/#{@props.post.identifier}").
+    $.ajaxq("default", type: "DELETE", url: "/api/posts/#{@props.post.identifier}").
       always(@handleResponse).
       done(@handleSuccess).
       fail(@handleError)
@@ -144,7 +146,7 @@
     return if @state.loading
     @setState(loading: true)
 
-    $.ajax(type: "PATCH", url: "/api/posts/#{@props.post.identifier}/restore").
+    $.ajaxq("default", type: "PATCH", url: "/api/posts/#{@props.post.identifier}/restore").
       always(@handleResponse).
       done(@handleSuccess).
       fail(@handleError)
@@ -207,7 +209,7 @@
   fetchPost: ->
     return if @state.loading
     @setState(loading: true)
-    $.get("/api/posts/#{@getParams().post_id}").always(@handleResponse).done(@handleSuccess).fail(@handleError)
+    $.getq("default", "/api/posts/#{@getParams().post_id}").always(@handleResponse).done(@handleSuccess).fail(@handleError)
 
   handleBack: (event) ->
     event.preventDefault()
@@ -219,7 +221,7 @@
     @setState(loading: true)
 
     data = @form().serializeObject()
-    $.ajax(type: "PATCH", url: "/api/posts/#{@state.post.identifier}", data: data).
+    $.ajaxq("default", type: "PATCH", url: "/api/posts/#{@state.post.identifier}", data: data).
       always(@handleResponse).
       done(@handleFormSuccess).
       fail(@handleError)

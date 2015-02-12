@@ -10,12 +10,12 @@
   handleSync: ->
     return if @state.loading
     @setState(loading: true)
-    $.post("/api/syncs").always(@handleResponse).done(@handleSyncSuccess).fail(@handleError)
+    $.postq("default", "/api/syncs").always(@handleResponse).done(@handleSyncSuccess).fail(@handleError)
 
   handleDeploy: ->
     return if @state.loading
     @setState(loading: true)
-    $.post("/api/deploys").always(@handleResponse).done(@handleDeploySuccess).fail(@handleError)
+    $.postq("default", "/api/deploys").always(@handleResponse).done(@handleDeploySuccess).fail(@handleError)
 
   handleResponse: ->
     @setState(loading: false)

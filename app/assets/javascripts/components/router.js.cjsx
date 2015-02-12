@@ -27,7 +27,7 @@
     { site: null }
 
   fetchSite: ->
-    $.get("/api/site").done(@handleSuccess).fail(@handleError)
+    $.getq("default", "/api/site").done(@handleSuccess).fail(@handleError)
 
   handleSuccess: (response) ->
     @setState(site: response.sites)
