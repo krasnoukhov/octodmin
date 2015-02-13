@@ -1,13 +1,12 @@
+require_relative "manage"
+
 module Octodmin::Controllers::Posts
-  class Show
+  class Show < Manage
     include Octodmin::Action
     expose :post
 
     def call(params)
-      self.format = :json
-
-      @post = Octodmin::Post.find(params[:id])
-      halt 400, JSON.dump(errors: ["Could not find post"]) unless @post
+      super
     end
   end
 end

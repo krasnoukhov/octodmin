@@ -1,13 +1,13 @@
+require_relative "manage"
+
 module Octodmin::Controllers::Posts
-  class Revert
+  class Revert < Manage
     include Octodmin::Action
     expose :post
 
     def call(params)
-      self.format = :json
+      super
 
-      @post = Octodmin::Post.find(params[:id])
-      halt 400, JSON.dump(errors: ["Could not find post"]) unless @post
       @post.revert
     end
   end
