@@ -1,3 +1,9 @@
+v0.3.0
+------
+
+* Improve preview
+* Implement file uploads
+
 v0.2.1
 ------
 
