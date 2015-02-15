@@ -9,28 +9,14 @@ module Octodmin::Controllers::Syncs
       site = Octodmin::Site.new
       git = Git.open(Octodmin::App.dir)
 
-      # Add posts to commit stage
+      # Add files to commit stage
       stage(site, git)
-
-      # Add uploads to commit stage
-      git.add(File.join(site.source, "octodmin"))
-
-      # Compute staged paths
-      staged = paths(site, git)
 
       # Pull changes
       git.pull
 
       # Commit and push changes if any
-      if staged.any?
-        @message  = "Octodmin sync for #{staged.count} file#{"s" if staged.count > 1}"
-        @message += "\n\n#{staged.join("\n")}"
-
-        git.commit(@message)
-        git.push
-      else
-        @message = "Everything is up-to-date"
-      end
+      commit(site, git)
     rescue Git::GitExecuteError => e
       halt 400, JSON.dump(errors: [e.message])
     ensure
@@ -40,30 +26,38 @@ module Octodmin::Controllers::Syncs
     private
 
     def stage(site, git)
+      # Posts
       deleted = site.status.deleted.keys.map { |path| File.join(Octodmin::App.dir, path) }
-
       site.posts.each do |post|
         path = File.join(site.source, post.path)
         git.add(path) unless deleted.include?(path)
       end
+
+      # Uploads
+      git.add(File.join(site.source, "octodmin"))
     end
 
     def paths(site, git)
       status = site.reset.status
+      keys = status.changed.keys + status.added.keys + status.deleted.keys
 
-      paths = (
-        status.changed.keys +
-        status.added.keys +
-        status.deleted.keys
-      ).map { |path| File.join(Octodmin::App.dir, path) }
+      keys.sort.reverse.map do |path|
+        File.join(Octodmin::App.dir, path).sub(File.join(site.source, ""), "")
+      end
+    end
 
-      site.posts.select do |post|
-        paths.any? { |path| path.end_with?(post.path) }
-      end.map(&:path) + paths.map do |path|
-        if path.start_with?(File.join(site.source, "octodmin"))
-          path.sub(File.join(site.source, ""), "")
-        end
-      end.compact
+    def commit(site, git)
+      staged = paths(site, git)
+
+      if staged.any?
+        @message  = "Octodmin sync for #{staged.count} file#{"s" if staged.count > 1}"
+        @message += "\n\n#{staged.join("\n")}"
+
+        git.commit(@message)
+        git.push
+      else
+        @message = "Everything is up-to-date"
+      end
     end
   end
 end

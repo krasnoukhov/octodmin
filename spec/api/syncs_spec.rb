@@ -81,10 +81,10 @@ end
         it "returns syncs" do
           expect(subject).to eql([[
             "Octodmin sync for 4 files\n",
+            "octodmin/2015-01-30-test/ear.png",
             "_posts/#{date}-yo.markdown",
             "_posts/2015-01-30-test.markdown",
             "_posts/2015-01-29-welcome-to-jekyll.markdown",
-            "octodmin/2015-01-30-test/ear.png",
           ].join("\n")])
         end
       end
