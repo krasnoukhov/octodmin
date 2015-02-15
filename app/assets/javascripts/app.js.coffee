@@ -4,6 +4,7 @@
 #= require bootstrap
 #= require bootstrap-markdown
 #= require bootstrap.growl/bootstrap-growl
+#= require marked
 #= require spin.js/spin.js
 #= require react
 #= require react-loader
