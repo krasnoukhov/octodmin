@@ -1,3 +1,8 @@
+v0.3.1
+------
+
+* Fix staging for those without octodmin dir
+
 v0.3.0
 ------
 
