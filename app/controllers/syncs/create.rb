@@ -34,7 +34,8 @@ module Octodmin::Controllers::Syncs
       end
 
       # Uploads
-      git.add(File.join(site.source, "octodmin"))
+      dir = File.join(site.source, "octodmin")
+      git.add(dir) if Dir.exists?(dir)
     end
 
     def paths(site, git)
