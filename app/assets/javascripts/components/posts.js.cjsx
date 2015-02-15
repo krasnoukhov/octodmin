@@ -213,9 +213,8 @@
 
   handleUpload: (event)->
     form = $("<form><input type='file' name='file' /></form>")
-    event.disableButtons("cmdUpload")
-
     form.find("input").on("change", (->
+      event.disableButtons("cmdUpload")
       data = new FormData(form[0])
       $.ajaxq("default",
         type: "POST"
