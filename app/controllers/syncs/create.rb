@@ -9,8 +9,11 @@ module Octodmin::Controllers::Syncs
       site = Octodmin::Site.new
       git = Git.open(Octodmin::App.dir)
 
-      # Add posts only to commit stage
+      # Add posts to commit stage
       stage(site, git)
+
+      # Add uploads to commit stage
+      git.add(File.join(site.source, "octodmin"))
 
       # Compute staged paths
       staged = paths(site, git)
@@ -56,7 +59,11 @@ module Octodmin::Controllers::Syncs
 
       site.posts.select do |post|
         paths.any? { |path| path.end_with?(post.path) }
-      end.map(&:path)
+      end.map(&:path) + paths.map do |path|
+        if path.start_with?(File.join(site.source, "octodmin"))
+          path.sub(File.join(site.source, ""), "")
+        end
+      end.compact
     end
   end
 end

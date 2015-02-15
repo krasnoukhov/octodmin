@@ -31,7 +31,10 @@ module Octodmin
 
     # :nocov:
     configure :production do
-      assets << ["public"]
+      assets << [
+        "public",
+        Octodmin::Site.new.source
+      ]
       serve_assets true
       handle_exceptions false
     end

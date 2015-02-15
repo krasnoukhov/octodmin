@@ -79,7 +79,7 @@
     @transitionTo("post_edit", post_id: response.posts.identifier)
 
   handleError: (error) ->
-    $.growl(error.responseJSON?.errors.join(", "), growlError)
+    $.growl(error.responseJSON?.errors.join(", ") || error.statusText, growlError)
 
   render: ->
     <div className="panel panel-default">
@@ -211,6 +211,30 @@
     @setState(loading: true)
     $.getq("default", "/api/posts/#{@getParams().post_id}").always(@handleResponse).done(@handleSuccess).fail(@handleError)
 
+  handleUpload: (event)->
+    form = $("<form><input type='file' name='file' /></form>")
+    event.disableButtons("cmdUpload")
+
+    form.find("input").on("change", (->
+      data = new FormData(form[0])
+      $.ajaxq("default",
+        type: "POST"
+        url: "/api/posts/#{@state.post.identifier}/upload"
+        data: data
+        cache: false
+        contentType: false
+        processData: false
+      ).always(->
+        event.enableButtons("cmdUpload")
+      ).done(((result) ->
+        @handleUploadSuccess(event, result)
+      ).bind(this)).fail(@handleError)
+    ).bind(this))
+    form.find("input").click()
+
+  handleUploadSuccess: (event, response) ->
+    event.replaceSelection(response.uploads[0])
+
   handleBack: (event) ->
     event.preventDefault()
     @transitionTo("app")
@@ -237,7 +261,7 @@
     @transitionTo("post_edit", post_id: response.posts.identifier)
 
   handleError: (error) ->
-    $.growl(error.responseJSON?.errors.join(", "), growlError)
+    $.growl(error.responseJSON?.errors.join(", ") || error.statusText, growlError)
 
   componentWillMount: ->
     @fetchPost()
@@ -253,6 +277,17 @@
       resize: "vertical"
       fullscreen:
         enable: false
+      additionalButtons: [
+        [{
+          name: "customGroup"
+          data: [{
+            name: "cmdUpload"
+            title: "Upload"
+            icon: "fa fa-upload"
+            callback: @handleUpload
+          }]
+        }]
+      ]
     )
 
   render: ->

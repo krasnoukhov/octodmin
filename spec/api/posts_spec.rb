@@ -408,4 +408,22 @@ describe "posts" do
       end
     end
   end
+
+  describe "upload" do
+    context "valid" do
+      before do
+        post "/api/posts/2015-01-30-test/upload", {
+          file: Rack::Test::UploadedFile.new("spec/fixtures/ear.png")
+        }
+      end
+      after do
+        File.delete("sample/octodmin/2015-01-30-test/ear.png")
+      end
+      subject { parse_json(last_response.body)["posts"] }
+
+      specify do
+        expect(File.exists?("sample/octodmin/2015-01-30-test/ear.png")).to be_truthy
+      end
+    end
+  end
 end

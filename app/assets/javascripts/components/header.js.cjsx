@@ -29,7 +29,7 @@
     $(document).trigger("fetchPosts")
 
   handleError: (error) ->
-    $.growl(error.responseJSON?.errors.join("\n").replace(/\n/g, "<br>"), growlError)
+    $.growl(error.responseJSON?.errors.join("\n").replace(/\n/g, "<br>") || error.statusText, growlError)
 
   render: ->
     <div>

@@ -62,6 +62,11 @@ end
           # Delete post
           delete "/api/posts/2015-01-29-welcome-to-jekyll"
 
+          # Upload file
+          post "/api/posts/2015-01-30-test/upload", {
+            file: Rack::Test::UploadedFile.new("spec/fixtures/ear.png")
+          }
+
           post "/api/syncs"
         end
         after do
@@ -69,11 +74,18 @@ end
           git = Git.open(Octodmin::App.dir)
           git.checkout("sample/_posts/2015-01-30-test.markdown")
           git.checkout("sample/_posts/2015-01-29-welcome-to-jekyll.markdown")
+          File.delete("sample/octodmin/2015-01-30-test/ear.png")
         end
         subject { parse_json(last_response.body)["syncs"] }
 
         it "returns syncs" do
-          expect(subject).to eql(["Octodmin sync for 3 files\n\n_posts/#{date}-yo.markdown\n_posts/2015-01-30-test.markdown\n_posts/2015-01-29-welcome-to-jekyll.markdown"])
+          expect(subject).to eql([[
+            "Octodmin sync for 4 files\n",
+            "_posts/#{date}-yo.markdown",
+            "_posts/2015-01-30-test.markdown",
+            "_posts/2015-01-29-welcome-to-jekyll.markdown",
+            "octodmin/2015-01-30-test/ear.png",
+          ].join("\n")])
         end
       end
     end
