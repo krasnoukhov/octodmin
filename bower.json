@@ -11,7 +11,7 @@
     "spin.js": "~2.0.2",
     "react": "~0.12.0",
     "react-loader": "~1.1.0",
-    "react-router": "~0.11.6",
+    "react-router": "~0.12.0",
     "fontawesome": "~4.3.0",
     "bootswatch": "~3.3.2",
     "momentjs": "~2.9.0"
