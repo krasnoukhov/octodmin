@@ -6,7 +6,6 @@ gem "sprockets",              "~> 3.0.0.beta"
 gem "bower",                  "~> 0.0.2"
 gem "sprockets-standalone",   github: "krasnoukhov/sprockets-standalone"
 gem "coffee-react",           "~> 2.4.0"
-gem "lotusrb",                github: "lotus/lotus"
 
 group :test do
   gem "simplecov",    "~> 0.9.0", require: false
