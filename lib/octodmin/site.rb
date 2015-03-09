@@ -41,7 +41,7 @@ module Octodmin
     def posts
       reset
       @site.read
-      @site.posts.sort_by(&:date).last(20).reverse.map { |post| Post.new(post) }
+      @site.posts.sort_by(&:date).last(20).reverse.map { |post| Post.new(self, post) }
     end
 
     def reset

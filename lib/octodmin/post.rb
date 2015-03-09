@@ -26,9 +26,9 @@ module Octodmin
     rescue RuntimeError
     end
 
-    def initialize(post)
+    def initialize(site, post)
+      @site = site
       @post = post
-      @site = Octodmin::Site.new
     end
 
     def path
