@@ -1,3 +1,10 @@
+v0.3.2
+------
+
+* Disable upload button when file is chosen
+* Fix preview layout
+* Optimize post initialization
+
 v0.3.1
 ------
 
