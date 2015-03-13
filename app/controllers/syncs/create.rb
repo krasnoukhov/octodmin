@@ -16,7 +16,7 @@ module Octodmin::Controllers::Syncs
       git.pull
 
       # Commit and push changes if any
-      commit(site, git)
+      sync(site, git)
     rescue Git::GitExecuteError => e
       halt 400, JSON.dump(errors: [e.message])
     ensure
@@ -25,12 +25,15 @@ module Octodmin::Controllers::Syncs
 
     private
 
+    def deleted(site)
+      site.status.deleted.keys.map { |path| File.join(Octodmin::App.dir, path) }
+    end
+
     def stage(site, git)
       # Posts
-      deleted = site.status.deleted.keys.map { |path| File.join(Octodmin::App.dir, path) }
       site.posts.each do |post|
         path = File.join(site.source, post.path)
-        git.add(path) unless deleted.include?(path)
+        git.add(path) unless deleted(site).include?(path)
       end
 
       # Uploads
@@ -47,13 +50,14 @@ module Octodmin::Controllers::Syncs
       end
     end
 
-    def commit(site, git)
+    def sync(site, git)
       staged = paths(site, git)
 
       if staged.any?
         @message  = "Octodmin sync for #{staged.count} file#{"s" if staged.count > 1}"
         @message += "\n\n#{staged.join("\n")}"
 
+        deleted(site).each { |path| File.delete(path) }
         git.commit(@message)
         git.push
       else

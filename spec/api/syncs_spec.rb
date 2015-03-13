@@ -79,6 +79,8 @@ end
         subject { parse_json(last_response.body)["syncs"] }
 
         it "returns syncs" do
+          expect(File.exists?("sample/_posts/2015-01-29-welcome-to-jekyll.markdown")).to be_falsey
+
           expect(subject).to eql([[
             "Octodmin sync for 4 files\n",
             "octodmin/2015-01-30-test/ear.png",
