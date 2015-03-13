@@ -1,3 +1,8 @@
+v0.3.3
+------
+
+* Make sync really delete files
+
 v0.3.2
 ------
 
