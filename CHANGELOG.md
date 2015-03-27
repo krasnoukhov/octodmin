@@ -1,3 +1,8 @@
+v0.3.4
+------
+
+* Use `_raw` when rendering JSON, bump Lotus to 0.3.0
+
 v0.3.3
 ------
 
