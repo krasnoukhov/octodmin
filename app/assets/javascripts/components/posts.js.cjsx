@@ -118,6 +118,12 @@
     else
       "default"
 
+  isoDate: ->
+    try
+      (new Date(@props.post.date.replace(/-/g, "/"))).toISOString()
+    catch e
+      null
+
   handleEdit: ->
     @transitionTo("post_edit", post_id: @props.post.identifier)
 
@@ -165,7 +171,7 @@
       <div className="panel-heading clearfix">
         <h3 className="panel-title pull-left">{@props.post.title}</h3>
         <div className="pull-right">
-          {moment((new Date(@props.post.date.replace(/-/g, "/"))).toISOString()).format("LLL")}
+          {if @isoDate() then moment(@isoDate()).format("LLL") else ""}
         </div>
       </div>
       <div className="panel-body">
