@@ -1,3 +1,8 @@
+v0.3.5
+------
+
+* Handle dates gracefully
+
 v0.3.4
 ------
 
