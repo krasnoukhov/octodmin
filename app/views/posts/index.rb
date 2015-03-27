@@ -4,7 +4,7 @@ module Octodmin::Views::Posts
     format :json
 
     def render
-      JSON.dump(posts: posts.map(&:serializable_hash))
+      _raw JSON.dump(posts: posts.map(&:serializable_hash))
     end
   end
 end

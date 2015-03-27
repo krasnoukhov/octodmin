@@ -19,6 +19,6 @@ Gem::Specification.new do |spec|
 
   spec.add_runtime_dependency "octopress", ">= 3.0.0.rc"
   spec.add_runtime_dependency "babosa", "~> 1.0"
-  spec.add_runtime_dependency "lotusrb", ">= 0.2.0"
+  spec.add_runtime_dependency "lotusrb", ">= 0.3.0"
   spec.add_runtime_dependency "git", "~> 1.2.9"
 end

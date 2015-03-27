@@ -4,7 +4,7 @@ module Octodmin::Views::Version
     format :json
 
     def render
-      JSON.dump(versions: version)
+      _raw JSON.dump(versions: version)
     end
   end
 end

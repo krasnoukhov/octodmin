@@ -4,7 +4,7 @@ module Octodmin::Views::Syncs
     format :json
 
     def render
-      JSON.dump(syncs: [message])
+      _raw JSON.dump(syncs: [message.gsub("&#x2F;", "/")])
     end
   end
 end

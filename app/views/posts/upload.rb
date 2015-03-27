@@ -4,7 +4,7 @@ module Octodmin::Views::Posts
     format :json
 
     def render
-      JSON.dump(uploads: [upload])
+      _raw JSON.dump(uploads: [upload])
     end
   end
 end

@@ -4,7 +4,7 @@ module Octodmin::Views::Site
     format :json
 
     def render
-      JSON.dump(sites: site.serializable_hash)
+      _raw JSON.dump(sites: site.serializable_hash)
     end
   end
 end

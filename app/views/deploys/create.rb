@@ -4,7 +4,7 @@ module Octodmin::Views::Deploys
     format :json
 
     def render
-      JSON.dump(deploys: [message])
+      _raw JSON.dump(deploys: [message])
     end
   end
 end
